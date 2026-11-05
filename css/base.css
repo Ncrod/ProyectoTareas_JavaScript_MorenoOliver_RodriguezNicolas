@@ -11,3 +11,12 @@
 html {
   -webkit-text-size-adjust: 100%;
 }
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
