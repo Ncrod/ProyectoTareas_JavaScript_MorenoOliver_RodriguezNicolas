@@ -28,3 +28,7 @@ textarea {
   font: inherit;
   color: inherit;
 }
+
+button {
+  cursor: pointer;
+}
