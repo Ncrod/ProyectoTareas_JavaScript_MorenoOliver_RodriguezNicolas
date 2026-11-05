@@ -20,3 +20,11 @@ body {
   color: var(--color-text);
   background-color: var(--color-bg);
 }
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
