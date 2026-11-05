@@ -1,0 +1,20 @@
+/**
+ * MODELO DE DATOS DE UNA TAREA
+ *
+ * {
+ *   id:        string   Identificador único, ver estándar abajo
+ *   title:     string   Descripción de la tarea (sin espacios sobrantes)
+ *   createdAt: string   Fecha de registro en formato ISO 8601
+ *   completed: boolean  true si está terminada
+ *   imported:  boolean  true si vino de la API (no se puede editar)
+ * }
+ *
+ * ESTÁNDAR DE ID
+ *
+ * Formato: "task-" + timestamp en base 36 + "-" + sufijo aleatorio en base 36
+ * Ejemplo: task-mh4k7q2z-9f3a
+ *
+ * - El prefijo "task-" identifica el tipo de dato.
+ * - El timestamp (Date.now()) hace que los IDs sean únicos en el tiempo.
+ * - El sufijo aleatorio evita choques si dos IDs se crean en el mismo milisegundo.
+ */
