@@ -35,3 +35,9 @@
   --radius-md: 12px;
   --radius-lg: 24px;
   --radius-full: 999px;
+
+  /* Otros */
+  --transition: 150ms ease;
+  --z-dropdown: 10;
+  --z-modal: 100;
+}
