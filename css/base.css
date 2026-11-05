@@ -32,3 +32,9 @@ textarea {
 button {
   cursor: pointer;
 }
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-4);
+}
