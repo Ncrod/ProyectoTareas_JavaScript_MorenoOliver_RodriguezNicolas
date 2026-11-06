@@ -188,3 +188,22 @@ class TaskItem extends HTMLElement {
     this.menu = root.querySelector(".menu");
     this.editButton = root.querySelector(".edit");
     this.deleteButton = root.querySelector(".delete");
+
+    this.toggleButton.addEventListener("click", () => this.#emit("task-toggle"));
+    this.menuButton.addEventListener("click", () => this.#toggleMenu());
+    this.editButton.addEventListener("click", () => {
+      this.#closeMenu();
+      this.#emit("task-edit");
+    });
+    this.deleteButton.addEventListener("click", () => {
+      this.#closeMenu();
+      this.#emit("task-delete");
+    });
+
+    this.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !this.menu.hidden) {
+        this.#closeMenu();
+        this.menuButton.focus();
+      }
+    });
+  }
