@@ -36,3 +36,7 @@ export function updateTask(id, changes = {}) {
 
   if ("title" in changes) {
     const cleanTitle = String(changes.title).trim();
+
+    if (!cleanTitle) {
+      return null;
+    }
