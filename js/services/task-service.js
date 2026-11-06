@@ -31,3 +31,5 @@ export function updateTask(id, changes = {}) {
   if (index === -1 || tasks[index].imported) {
     return null;
   }
+
+  const updated = { ...tasks[index] };
