@@ -55,3 +55,8 @@ template.innerHTML = `
       column-gap: var(--space-3);
       row-gap: var(--space-1);
     }
+
+    .title {
+      font-size: var(--font-size-sm);
+      overflow-wrap: anywhere;
+    }
