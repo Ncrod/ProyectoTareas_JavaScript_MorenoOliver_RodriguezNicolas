@@ -68,3 +68,12 @@ export function deleteTask(id) {
 export function toggleTask(id) {
   const tasks = getTasks();
   const task = tasks.find((item) => item.id === id);
+
+  if (!task) {
+    return null;
+  }
+
+  task.completed = !task.completed;
+  saveTasks(tasks);
+  return task;
+}
