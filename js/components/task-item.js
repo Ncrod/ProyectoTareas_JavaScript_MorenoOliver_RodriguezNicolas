@@ -177,3 +177,14 @@ class TaskItem extends HTMLElement {
 
     this.attachShadow({ mode: "open" });
     this.shadowRoot.append(template.content.cloneNode(true));
+
+    const root = this.shadowRoot;
+    this.row = root.querySelector(".row");
+    this.toggleButton = root.querySelector(".toggle");
+    this.titleEl = root.querySelector(".title");
+    this.dateEl = root.querySelector(".date");
+    this.badge = root.querySelector(".badge");
+    this.menuButton = root.querySelector(".menu-button");
+    this.menu = root.querySelector(".menu");
+    this.editButton = root.querySelector(".edit");
+    this.deleteButton = root.querySelector(".delete");
