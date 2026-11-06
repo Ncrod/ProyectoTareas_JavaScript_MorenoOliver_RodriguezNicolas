@@ -111,3 +111,7 @@ export function addImportedTasks(importedTasks) {
     if (knownTitles.has(key)) {
       continue;
     }
+
+    knownTitles.add(key);
+    toAdd.push({ ...task, imported: true });
+  }
