@@ -122,7 +122,9 @@ template.innerHTML = `
     }
 
     .menu-item {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
       width: 100%;
       padding: var(--space-2) var(--space-3);
       border: none;
@@ -161,8 +163,23 @@ template.innerHTML = `
         </svg>
       </button>
       <div class="menu" hidden>
-        <button class="menu-item edit" type="button">Editar</button>
-        <button class="menu-item danger delete" type="button">Eliminar</button>
+                <button class="menu-item edit" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+            <path d="m15 5 4 4" />
+          </svg>
+          Editar
+        </button>
+        <button class="menu-item danger delete" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 6h18" />
+            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+            <path d="M10 11v6" />
+            <path d="M14 11v6" />
+          </svg>
+          Eliminar
+        </button>
       </div>
     </div>
   </div>
