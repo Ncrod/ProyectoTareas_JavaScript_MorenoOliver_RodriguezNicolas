@@ -89,3 +89,8 @@ export function clearAll() {
   saveTasks([]);
   return [];
 }
+
+export function addImportedTasks(importedTasks) {
+  if (!Array.isArray(importedTasks)) {
+    return [];
+  }
