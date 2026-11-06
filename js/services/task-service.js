@@ -77,3 +77,10 @@ export function toggleTask(id) {
   saveTasks(tasks);
   return task;
 }
+
+export function completeAll() {
+  const tasks = getTasks().map((task) => ({ ...task, completed: true }));
+
+  saveTasks(tasks);
+  return tasks;
+}
