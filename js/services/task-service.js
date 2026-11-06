@@ -100,3 +100,14 @@ export function addImportedTasks(importedTasks) {
     current.filter((task) => task.imported).map((task) => normalizeTitle(task.title))
   );
   const toAdd = [];
+
+  for (const task of importedTasks) {
+    if (typeof task?.title !== "string") {
+      continue;
+    }
+
+    const key = normalizeTitle(task.title);
+
+    if (knownTitles.has(key)) {
+      continue;
+    }
