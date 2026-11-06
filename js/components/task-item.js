@@ -25,3 +25,7 @@ template.innerHTML = `
       border-radius: var(--radius-md);
       transition: border-color var(--transition);
     }
+
+    .row.completed {
+      border-color: var(--color-success-border);
+    }
