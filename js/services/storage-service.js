@@ -16,3 +16,5 @@ export function getTasks() {
     return [];
   }
 }
+
+export function saveTasks(tasks) {
