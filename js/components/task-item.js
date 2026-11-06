@@ -154,3 +154,17 @@ template.innerHTML = `
     </div>
   </div>
 `;
+
+function formatDate(isoString) {
+  const date = new Date(isoString);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return date.toLocaleDateString("es-CO", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
