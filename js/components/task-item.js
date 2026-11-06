@@ -60,3 +60,17 @@ template.innerHTML = `
       font-size: var(--font-size-sm);
       overflow-wrap: anywhere;
     }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+
+    .badge {
+      padding: 0 var(--space-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+    }
