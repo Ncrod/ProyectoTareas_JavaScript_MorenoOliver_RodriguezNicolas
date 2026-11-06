@@ -19,3 +19,7 @@ export function addTask({ title, completed = false, createdAt } = {}) {
     completed: Boolean(completed),
     imported: false,
   };
+
+  saveTasks([...getTasks(), task]);
+  return task;
+}
