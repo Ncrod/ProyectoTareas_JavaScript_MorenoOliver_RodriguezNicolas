@@ -170,6 +170,7 @@ template.innerHTML = `
     }
 
     .btn {
+          color: var(--color-text);
       padding: var(--space-2) var(--space-4);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-sm);
