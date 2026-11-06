@@ -56,3 +56,11 @@ export function updateTask(id, changes = {}) {
 export function deleteTask(id) {
   const tasks = getTasks();
   const remaining = tasks.filter((task) => task.id !== id);
+
+  if (remaining.length === tasks.length) {
+    return false;
+  }
+
+  saveTasks(remaining);
+  return true;
+}
