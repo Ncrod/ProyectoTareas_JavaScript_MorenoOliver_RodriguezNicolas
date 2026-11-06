@@ -29,3 +29,15 @@ export async function fetchTodos() {
   }
 
   const importedAt = new Date().toISOString();
+
+  return data
+    .slice(0, MAX_TODOS)
+    .filter((todo) => typeof todo?.title === "string" && todo.title.trim() !== "")
+    .map((todo) => ({
+      id: generateId(),
+      title: todo.title.trim(),
+      createdAt: importedAt,
+      completed: Boolean(todo.completed),
+      imported: true,
+    }));
+}
