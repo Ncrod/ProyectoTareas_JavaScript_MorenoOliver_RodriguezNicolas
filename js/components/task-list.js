@@ -74,3 +74,16 @@ class TaskList extends HTMLElement {
 
       return item;
     });
+
+    const isEmpty = items.length === 0;
+
+    this.listEl.replaceChildren(...items);
+    this.listEl.hidden = isEmpty;
+    this.emptyEl.hidden = !isEmpty;
+    this.emptyEl.textContent = this.#filtered ? "Sin resultados" : "No hay tareas";
+  }
+}
+
+if (!customElements.get("task-list")) {
+  customElements.define("task-list", TaskList);
+}
