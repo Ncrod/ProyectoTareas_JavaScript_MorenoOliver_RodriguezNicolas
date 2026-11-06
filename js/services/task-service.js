@@ -11,3 +11,11 @@ export function addTask({ title, completed = false, createdAt } = {}) {
   if (!cleanTitle) {
     return null;
   }
+
+  const task = {
+    id: generateId(),
+    title: cleanTitle,
+    createdAt: createdAt ?? new Date().toISOString(),
+    completed: Boolean(completed),
+    imported: false,
+  };
