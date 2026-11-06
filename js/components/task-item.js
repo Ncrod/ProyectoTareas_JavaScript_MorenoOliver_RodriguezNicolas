@@ -234,3 +234,22 @@ class TaskItem extends HTMLElement {
     if (!task) {
       return;
     }
+
+    const completed = Boolean(task.completed);
+
+    this.titleEl.textContent = task.title;
+    this.dateEl.textContent = formatDate(task.createdAt);
+    this.dateEl.setAttribute("datetime", task.createdAt);
+    this.badge.hidden = !task.imported;
+    this.editButton.hidden = Boolean(task.imported);
+
+    this.row.classList.toggle("completed", completed);
+    this.toggleButton.setAttribute("aria-checked", String(completed));
+    this.toggleButton.setAttribute(
+      "aria-label",
+      completed
+        ? `Marcar como pendiente: ${task.title}`
+        : `Marcar como terminada: ${task.title}`
+    );
+    this.menuButton.setAttribute("aria-label", `Opciones de la tarea: ${task.title}`);
+  }
