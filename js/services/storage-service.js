@@ -21,3 +21,5 @@ export function saveTasks(tasks) {
     try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
     return true;
+    } catch (error) {
+    console.error("No se pudieron guardar las tareas:", error);
