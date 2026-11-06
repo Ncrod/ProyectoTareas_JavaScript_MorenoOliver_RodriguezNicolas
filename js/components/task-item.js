@@ -74,3 +74,8 @@ template.innerHTML = `
       border: 1px solid var(--color-border);
       border-radius: var(--radius-full);
     }
+
+     .menu-wrapper {
+      position: relative;
+      flex: none;
+    }
