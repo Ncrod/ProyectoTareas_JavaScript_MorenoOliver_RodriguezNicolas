@@ -11,3 +11,9 @@ export async function fetchTodos() {
   } catch (error) {
     throw new Error("No se pudo conectar con el servidor. Revisa tu conexión a internet.");
   }
+
+  if (!response.ok) {
+    throw new Error(`El servidor respondió con un error (código ${response.status}).`);
+  }
+
+  let data;
