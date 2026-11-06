@@ -94,3 +94,9 @@ export function addImportedTasks(importedTasks) {
   if (!Array.isArray(importedTasks)) {
     return [];
   }
+
+  const current = getTasks();
+  const knownTitles = new Set(
+    current.filter((task) => task.imported).map((task) => normalizeTitle(task.title))
+  );
+  const toAdd = [];
