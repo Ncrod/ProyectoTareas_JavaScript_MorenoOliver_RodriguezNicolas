@@ -168,3 +168,12 @@ function formatDate(isoString) {
     year: "numeric",
   });
 }
+
+class TaskItem extends HTMLElement {
+  #task = null;
+
+  constructor() {
+    super();
+
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.append(template.content.cloneNode(true));
