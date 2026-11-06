@@ -6,3 +6,11 @@ template.innerHTML = `
       display: block;
       position: relative;
     }
+
+    :host([menu-open]) {
+      z-index: var(--z-dropdown);
+    }
+
+    [hidden] {
+      display: none !important;
+    }
