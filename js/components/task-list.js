@@ -30,3 +30,19 @@ template.innerHTML = `
   <div class="list" role="list"></div>
   <p class="empty" hidden></p>
 `;
+
+class TaskList extends HTMLElement {
+  #tasks = [];
+  #filtered = false;
+
+  constructor() {
+    super();
+
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.append(template.content.cloneNode(true));
+
+    this.listEl = this.shadowRoot.querySelector(".list");
+    this.emptyEl = this.shadowRoot.querySelector(".empty");
+
+    this.#render();
+  }
