@@ -27,3 +27,7 @@ export function addTask({ title, completed = false, createdAt } = {}) {
 export function updateTask(id, changes = {}) {
   const tasks = getTasks();
   const index = tasks.findIndex((task) => task.id === id);
+
+  if (index === -1 || tasks[index].imported) {
+    return null;
+  }
