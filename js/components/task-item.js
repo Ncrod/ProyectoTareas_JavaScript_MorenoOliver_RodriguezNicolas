@@ -253,3 +253,33 @@ class TaskItem extends HTMLElement {
     );
     this.menuButton.setAttribute("aria-label", `Opciones de la tarea: ${task.title}`);
   }
+
+  #emit(eventName) {
+    if (!this.#task) {
+      return;
+    }
+
+    this.dispatchEvent(
+      new CustomEvent(eventName, {
+        detail: { id: this.#task.id },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
+  #toggleMenu() {
+    if (this.menu.hidden) {
+      this.menu.hidden = false;
+      this.menuButton.setAttribute("aria-expanded", "true");
+      this.setAttribute("menu-open", "");
+    } else {
+      this.#closeMenu();
+    }
+  }
+
+  #closeMenu() {
+    this.menu.hidden = true;
+    this.menuButton.setAttribute("aria-expanded", "false");
+    this.removeAttribute("menu-open");
+  }
