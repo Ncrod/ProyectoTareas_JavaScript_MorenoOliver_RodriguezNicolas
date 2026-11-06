@@ -47,3 +47,8 @@ export function updateTask(id, changes = {}) {
   if ("completed" in changes) {
     updated.completed = Boolean(changes.completed);
   }
+
+  tasks[index] = updated;
+  saveTasks(tasks);
+  return updated;
+}
