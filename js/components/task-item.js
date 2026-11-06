@@ -96,3 +96,14 @@ template.innerHTML = `
       background: var(--color-surface-raised);
       color: var(--color-text);
     }
+
+    .menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + var(--space-1));
+      min-width: 140px;
+      padding: var(--space-1);
+      background: var(--color-surface-raised);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+    }
