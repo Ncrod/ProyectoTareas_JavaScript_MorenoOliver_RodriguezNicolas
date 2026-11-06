@@ -27,3 +27,5 @@ export async function fetchTodos() {
   if (!Array.isArray(data)) {
     throw new Error("La respuesta del servidor no tiene un formato válido.");
   }
+
+  const importedAt = new Date().toISOString();
