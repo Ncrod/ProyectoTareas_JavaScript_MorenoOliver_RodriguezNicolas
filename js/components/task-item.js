@@ -2,6 +2,19 @@ const template = document.createElement("template");
 
 template.innerHTML = `
   <style>
+  
+      *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+
     :host {
       display: block;
       position: relative;
