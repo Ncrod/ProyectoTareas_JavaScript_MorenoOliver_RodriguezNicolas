@@ -45,3 +45,13 @@ template.innerHTML = `
       background: var(--color-success);
       border-color: var(--color-success);
     }
+
+    .content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      column-gap: var(--space-3);
+      row-gap: var(--space-1);
+    }
