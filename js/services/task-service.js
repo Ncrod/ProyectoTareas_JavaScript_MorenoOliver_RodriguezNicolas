@@ -84,3 +84,8 @@ export function completeAll() {
   saveTasks(tasks);
   return tasks;
 }
+
+export function clearAll() {
+  saveTasks([]);
+  return [];
+}
