@@ -46,3 +46,31 @@ class TaskList extends HTMLElement {
 
     this.#render();
   }
+
+  get tasks() {
+    return this.#tasks;
+  }
+
+  set tasks(value) {
+    this.#tasks = Array.isArray(value) ? value : [];
+    this.#render();
+  }
+
+  get filtered() {
+    return this.#filtered;
+  }
+
+  set filtered(value) {
+    this.#filtered = Boolean(value);
+    this.#render();
+  }
+
+  #render() {
+    const items = this.#tasks.map((task) => {
+      const item = document.createElement("task-item");
+
+      item.setAttribute("role", "listitem");
+      item.task = task;
+
+      return item;
+    });
