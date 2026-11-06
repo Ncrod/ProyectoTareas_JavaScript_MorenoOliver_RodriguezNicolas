@@ -23,3 +23,7 @@ export function addTask({ title, completed = false, createdAt } = {}) {
   saveTasks([...getTasks(), task]);
   return task;
 }
+
+export function updateTask(id, changes = {}) {
+  const tasks = getTasks();
+  const index = tasks.findIndex((task) => task.id === id);
