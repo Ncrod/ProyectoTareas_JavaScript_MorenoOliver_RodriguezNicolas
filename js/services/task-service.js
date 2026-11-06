@@ -115,3 +115,10 @@ export function addImportedTasks(importedTasks) {
     knownTitles.add(key);
     toAdd.push({ ...task, imported: true });
   }
+
+  if (toAdd.length > 0) {
+    saveTasks([...current, ...toAdd]);
+  }
+
+  return toAdd;
+}
