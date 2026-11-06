@@ -40,3 +40,8 @@ template.innerHTML = `
       background: transparent;
       transition: background var(--transition), border-color var(--transition);
     }
+
+    .row.completed .toggle {
+      background: var(--color-success);
+      border-color: var(--color-success);
+    }
