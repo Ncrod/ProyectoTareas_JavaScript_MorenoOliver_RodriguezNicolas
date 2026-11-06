@@ -91,3 +91,8 @@ template.innerHTML = `
       background: transparent;
       color: var(--color-text-muted);
     }
+
+    .menu-button:hover {
+      background: var(--color-surface-raised);
+      color: var(--color-text);
+    }
