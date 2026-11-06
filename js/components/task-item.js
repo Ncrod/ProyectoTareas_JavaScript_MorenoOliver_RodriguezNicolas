@@ -29,3 +29,14 @@ template.innerHTML = `
     .row.completed {
       border-color: var(--color-success-border);
     }
+
+    .toggle {
+      flex: none;
+      width: 18px;
+      height: 18px;
+      padding: 0;
+      border: 1.5px solid var(--color-text-muted);
+      border-radius: var(--radius-full);
+      background: transparent;
+      transition: background var(--transition), border-color var(--transition);
+    }
