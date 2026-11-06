@@ -17,3 +17,13 @@ export async function fetchTodos() {
   }
 
   let data;
+
+  try {
+    data = await response.json();
+  } catch (error) {
+    throw new Error("La respuesta del servidor no tiene un formato válido.");
+  }
+
+  if (!Array.isArray(data)) {
+    throw new Error("La respuesta del servidor no tiene un formato válido.");
+  }
