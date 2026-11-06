@@ -11,4 +11,8 @@ export function getTasks() {
     const parsed = JSON.parse(raw);
 
     return Array.isArray(parsed) ? parsed : [];
-  } catch (error)
+  } catch (error) {
+    console.error("No se pudieron leer las tareas guardadas:", error);
+    return [];
+  }
+}
