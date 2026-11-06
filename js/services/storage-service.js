@@ -23,3 +23,6 @@ export function saveTasks(tasks) {
     return true;
     } catch (error) {
     console.error("No se pudieron guardar las tareas:", error);
+    return false;
+  }
+}
