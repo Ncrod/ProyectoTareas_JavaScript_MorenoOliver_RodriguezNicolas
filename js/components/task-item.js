@@ -283,3 +283,14 @@ class TaskItem extends HTMLElement {
     this.menuButton.setAttribute("aria-expanded", "false");
     this.removeAttribute("menu-open");
   }
+
+  #onDocumentClick = (event) => {
+    if (!event.composedPath().includes(this)) {
+      this.#closeMenu();
+    }
+  };
+}
+
+if (!customElements.get("task-item")) {
+  customElements.define("task-item", TaskItem);
+}
