@@ -40,3 +40,10 @@ export function updateTask(id, changes = {}) {
     if (!cleanTitle) {
       return null;
     }
+
+    updated.title = cleanTitle;
+  }
+
+  if ("completed" in changes) {
+    updated.completed = Boolean(changes.completed);
+  }
