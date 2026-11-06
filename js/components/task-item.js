@@ -107,3 +107,22 @@ template.innerHTML = `
       border: 1px solid var(--color-border);
       border-radius: var(--radius-md);
     }
+
+    .menu-item {
+      display: block;
+      width: 100%;
+      padding: var(--space-2) var(--space-3);
+      border: none;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      text-align: left;
+      font-size: var(--font-size-sm);
+    }
+
+    .menu-item:hover {
+      background: var(--color-surface);
+    }
+
+    .menu-item.danger {
+      color: var(--color-danger);
+    }
