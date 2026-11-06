@@ -207,3 +207,30 @@ class TaskItem extends HTMLElement {
       }
     });
   }
+
+  connectedCallback() {
+    document.addEventListener("click", this.#onDocumentClick);
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener("click", this.#onDocumentClick);
+  }
+
+  get task() {
+    return this.#task;
+  }
+
+  set task(value) {
+    this.#task = value;
+    this.#render();
+  }
+
+  #render() {
+    const task = this.#task;
+
+    this.#closeMenu();
+    this.hidden = !task;
+
+    if (!task) {
+      return;
+    }
