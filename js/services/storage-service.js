@@ -7,3 +7,5 @@ export function getTasks() {
     if (raw === null) {
       return [];
     }
+
+    const parsed = JSON.parse(raw);
