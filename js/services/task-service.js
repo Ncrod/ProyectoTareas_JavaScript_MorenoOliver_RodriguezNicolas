@@ -7,3 +7,7 @@ function normalizeTitle(title) {
 
 export function addTask({ title, completed = false, createdAt } = {}) {
   const cleanTitle = typeof title === "string" ? title.trim() : "";
+
+  if (!cleanTitle) {
+    return null;
+  }
