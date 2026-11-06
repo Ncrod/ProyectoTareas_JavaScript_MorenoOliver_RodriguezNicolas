@@ -126,3 +126,31 @@ template.innerHTML = `
     .menu-item.danger {
       color: var(--color-danger);
     }
+      </style>
+
+  <div class="row">
+    <button class="toggle" type="button" role="checkbox" aria-checked="false"></button>
+
+    <div class="content">
+      <span class="title"></span>
+      <span class="meta">
+        <time class="date"></time>
+        <span class="badge" hidden>Importada</span>
+      </span>
+    </div>
+
+    <div class="menu-wrapper">
+      <button class="menu-button" type="button" aria-haspopup="true" aria-expanded="false">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <circle cx="3" cy="8" r="1.3" />
+          <circle cx="8" cy="8" r="1.3" />
+          <circle cx="13" cy="8" r="1.3" />
+        </svg>
+      </button>
+      <div class="menu" hidden>
+        <button class="menu-item edit" type="button">Editar</button>
+        <button class="menu-item danger delete" type="button">Eliminar</button>
+      </div>
+    </div>
+  </div>
+`;
