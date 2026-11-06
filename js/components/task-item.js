@@ -79,3 +79,15 @@ template.innerHTML = `
       position: relative;
       flex: none;
     }
+
+    .menu-button {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--color-text-muted);
+    }
