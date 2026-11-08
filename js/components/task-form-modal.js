@@ -280,6 +280,15 @@ class TaskFormModal extends HTMLElement {
       this.#submit();
     });
     this.titleInput.addEventListener("input", () => this.#clearError());
+
+    // Enter en el título guarda (el formulario no tiene botón de envío propio,
+    // así que el navegador no lo envía solo)
+    this.titleInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        this.#submit();
+      }
+    });
   }
 
   get isEditing() {

@@ -280,6 +280,11 @@ class TaskApp extends HTMLElement {
     this.filterMenu = root.querySelector(".filter-menu");
     this.filterOptions = root.querySelectorAll(".filter-option");
     this.clearButton = root.querySelector(".clear");
+    this.list = root.querySelector("task-list");
+    this.formModal = root.querySelector("task-form-modal");
+    this.importModal = root.querySelector("import-modal");
+    this.confirmDialog = root.querySelector("confirm-dialog");
+    this.toast = root.querySelector("toast-message");
 
     this.addButton.addEventListener("click", () => this.formModal.open());
     this.formModal.addEventListener("task-save", (event) => this.#onTaskSave(event));
@@ -308,11 +313,6 @@ class TaskApp extends HTMLElement {
     this.list.addEventListener("task-toggle", (event) => this.#onTaskToggle(event));
     this.list.addEventListener("task-edit", (event) => this.#onTaskEdit(event));
     this.list.addEventListener("task-delete", (event) => this.#onTaskDelete(event));
-    this.list = root.querySelector("task-list");
-    this.formModal = root.querySelector("task-form-modal");
-    this.importModal = root.querySelector("import-modal");
-    this.confirmDialog = root.querySelector("confirm-dialog");
-    this.toast = root.querySelector("toast-message");
   }
 
   connectedCallback() {
