@@ -318,7 +318,44 @@ class TaskFormModal extends HTMLElement {
       return;
     }
 
-    // Aquí se emite "task-save" (punto 2.7)
+    const detail = {
+      title: this.titleInput.value.trim(),
+      createdAt: this.#getCreatedAt(),
+      completed: this.completedInput.checked,
+    };
+
+    // El id solo viene al editar
+    if (this.#task) {
+      detail.id = this.#task.id;
+    }
+
+    this.dispatchEvent(
+      new CustomEvent("task-save", {
+        detail,
+        bubbles: true,
+        composed: true,
+      })
+    );
+
+    this.close();
+  }
+
+  // Al editar se conserva la fecha original.
+  // Al crear, se convierte la fecha del input a formato ISO.
+  #getCreatedAt() {
+    if (this.#task) {
+      return this.#task.createdAt;
+    }
+
+    const value = this.dateInput.value;
+
+    // Hoy (o sin fecha): se usa la hora actual
+    if (!value || value === toDateInputValue(new Date())) {
+      return new Date().toISOString();
+    }
+
+    // Otro día: se usa el mediodía para evitar desfases de zona horaria
+    return new Date(`${value}T12:00:00`).toISOString();
   }
 }
 
