@@ -36,14 +36,112 @@ template.innerHTML = `
       font-size: var(--font-size-title);
       font-weight: 600;
     }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      width: 360px;
+      max-width: 100%;
+      height: 42px;
+      padding: 9px 12px;
+      border-radius: 80px;
+      background: var(--color-surface-raised);
+    }
+
+    .search img,
+    .btn img {
+      flex: none;
+      width: 18px;
+      height: 18px;
+    }
+
+    .search input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--color-text);
+      font: inherit;
+      font-size: var(--font-size-button);
+    }
+
+    .search input::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    .search:focus-within {
+      outline: 2px solid var(--color-primary);
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      height: 42px;
+      padding: 9px 12px;
+      border: none;
+      border-radius: var(--radius-button);
+      background: var(--color-control);
+      color: var(--color-text);
+      font: inherit;
+      font-size: var(--font-size-button);
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      filter: brightness(1.2);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .btn.primary {
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+    }
   </style>
 
   <div class="app">
     <header class="header">
       <h1 class="title">Bandeja de entrada</h1>
 
-      <!-- Buscador, filtro y botones van aquí (punto 3.4) -->
-      <div class="toolbar"></div>
+      <div class="toolbar">
+        <label class="search">
+          <img src="public/search.svg" alt="">
+          <input class="search-input" type="search" placeholder="Buscar tareas" aria-label="Buscar tareas" autocomplete="off">
+        </label>
+
+        <button class="btn primary add" type="button">
+          <img src="public/anadir.svg" alt="">
+          Añadir tarea
+        </button>
+
+        <button class="btn primary import" type="button">
+          <img src="public/import.svg" alt="">
+          Importar tarea
+        </button>
+
+        <button class="btn filter" type="button" aria-label="Filtrar tareas" aria-haspopup="true" aria-expanded="false">
+          <img src="public/filtro.svg" alt="">
+        </button>
+
+        <button class="btn clear" type="button">
+          <img src="public/papelera.svg" alt="">
+          Vaciar
+        </button>
+      </div>
     </header>
 
     <task-list></task-list>
@@ -65,6 +163,11 @@ class TaskApp extends HTMLElement {
 
     const root = this.shadowRoot;
     this.toolbar = root.querySelector(".toolbar");
+    this.searchInput = root.querySelector(".search-input");
+    this.addButton = root.querySelector(".add");
+    this.importButton = root.querySelector(".import");
+    this.filterButton = root.querySelector(".filter");
+    this.clearButton = root.querySelector(".clear");
     this.list = root.querySelector("task-list");
     this.formModal = root.querySelector("task-form-modal");
     this.importModal = root.querySelector("import-modal");
