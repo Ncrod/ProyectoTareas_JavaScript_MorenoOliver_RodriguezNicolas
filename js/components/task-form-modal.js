@@ -86,6 +86,16 @@ template.innerHTML = `
       font-weight: 500;
     }
 
+    .error {
+      margin: 0;
+      color: var(--color-danger);
+      font-size: var(--font-size-sm);
+    }
+
+    input[aria-invalid="true"] {
+      border-color: var(--color-danger);
+    }
+
     .required {
       color: var(--color-danger);
     }
@@ -171,7 +181,8 @@ template.innerHTML = `
     <form class="body" novalidate>
       <div class="field">
         <label for="task-title">Título <span class="required" aria-hidden="true">*</span></label>
-        <input id="task-title" name="title" type="text" maxlength="120" required autocomplete="off" placeholder="¿Qué hay que hacer?">
+        <input id="task-title" name="title" type="text" maxlength="120" required autocomplete="off" placeholder="¿Qué hay que hacer?" aria-describedby="title-error">
+        <p class="error" id="title-error" role="alert" hidden></p>
       </div>
 
       <div class="field">
@@ -218,7 +229,15 @@ class TaskFormModal extends HTMLElement {
     this.titleInput = root.querySelector("#task-title");
     this.dateInput = root.querySelector("#task-date");
     this.completedInput = root.querySelector("#task-completed");
+    this.titleError = root.querySelector("#title-error");
     this.saveButton = root.querySelector(".save");
+
+    this.saveButton.addEventListener("click", () => this.#submit());
+    this.form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      this.#submit();
+    });
+    this.titleInput.addEventListener("input", () => this.#clearError());
   }
 
   get isEditing() {
@@ -234,6 +253,7 @@ class TaskFormModal extends HTMLElement {
 
     this.#task = task;
     this.form.reset();
+    this.#clearError();
 
     if (task) {
       this.titleEl.textContent = "Editar tarea";
@@ -253,6 +273,38 @@ class TaskFormModal extends HTMLElement {
 
   close() {
     this.dialog.close();
+  }
+
+  // El título es obligatorio y no puede tener solo espacios
+  #validate() {
+    if (this.titleInput.value.trim() === "") {
+      this.#showError("El título es obligatorio.");
+      this.titleInput.focus();
+      return false;
+    }
+
+    this.#clearError();
+    return true;
+  }
+
+  #showError(message) {
+    this.titleError.textContent = message;
+    this.titleError.hidden = false;
+    this.titleInput.setAttribute("aria-invalid", "true");
+  }
+
+  #clearError() {
+    this.titleError.textContent = "";
+    this.titleError.hidden = true;
+    this.titleInput.removeAttribute("aria-invalid");
+  }
+
+  #submit() {
+    if (!this.#validate()) {
+      return;
+    }
+
+    // Aquí se emite "task-save" (punto 2.7)
   }
 }
 
