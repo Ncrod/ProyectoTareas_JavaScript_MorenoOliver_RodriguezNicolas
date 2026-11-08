@@ -14,7 +14,7 @@ template.innerHTML = `
 
     .list {
       display: grid;
-      gap: var(--space-2);
+      gap: 10px;
     }
 
     .empty {
