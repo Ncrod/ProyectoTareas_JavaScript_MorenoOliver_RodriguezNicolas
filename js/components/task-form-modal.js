@@ -193,6 +193,9 @@ template.innerHTML = `
 `;
 
 class TaskFormModal extends HTMLElement {
+  // Tarea que se está editando. null = modo crear
+  #task = null;
+
   constructor() {
     super();
 
@@ -207,6 +210,36 @@ class TaskFormModal extends HTMLElement {
     this.dateInput = root.querySelector("#task-date");
     this.completedInput = root.querySelector("#task-completed");
     this.saveButton = root.querySelector(".save");
+  }
+
+  get isEditing() {
+    return this.#task !== null;
+  }
+
+  // open()            -> modo crear
+  // open({ task })    -> modo editar
+  open({ task = null } = {}) {
+    if (this.dialog.open) {
+      return;
+    }
+
+    this.#task = task;
+    this.form.reset();
+
+    if (task) {
+      this.titleEl.textContent = "Editar tarea";
+      this.titleInput.value = task.title;
+      this.completedInput.checked = Boolean(task.completed);
+    } else {
+      this.titleEl.textContent = "Nueva tarea";
+    }
+
+    this.dialog.showModal();
+    this.titleInput.focus();
+  }
+
+  close() {
+    this.dialog.close();
   }
 }
 
