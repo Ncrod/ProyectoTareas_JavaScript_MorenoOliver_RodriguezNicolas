@@ -2,7 +2,7 @@ import "./task-list.js";
 import "./task-form-modal.js";
 import "./import-modal.js";
 import { getTasks } from "../services/storage-service.js";
-import { addTask, deleteTask, toggleTask, updateTask } from "../services/task-service.js";
+import { addImportedTasks, addTask, deleteTask, toggleTask, updateTask } from "../services/task-service.js";
 
 const template = document.createElement("template");
 
@@ -173,6 +173,9 @@ class TaskApp extends HTMLElement {
     this.addButton.addEventListener("click", () => this.formModal.open());
     this.formModal.addEventListener("task-save", (event) => this.#onTaskSave(event));
 
+    this.importButton.addEventListener("click", () => this.importModal.open());
+    this.importModal.addEventListener("tasks-import", (event) => this.#onTasksImport(event));
+
     // Eventos que salen de cada <task-item> (burbujean hasta la lista)
     this.list.addEventListener("task-toggle", (event) => this.#onTaskToggle(event));
     this.list.addEventListener("task-edit", (event) => this.#onTaskEdit(event));
@@ -204,6 +207,12 @@ class TaskApp extends HTMLElement {
   // Opción "Eliminar" de una tarea (la confirmación se agrega en el punto 4.1)
   #onTaskDelete(event) {
     deleteTask(event.detail.id);
+    this.#loadTasks();
+  }
+
+  // Tareas elegidas en el modal de importar (los repetidos se descartan solos)
+  #onTasksImport(event) {
+    addImportedTasks(event.detail.tasks);
     this.#loadTasks();
   }
 
