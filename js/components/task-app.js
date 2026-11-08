@@ -219,6 +219,9 @@ class TaskApp extends HTMLElement {
   // Filtro por estado: "all" | "pending" | "completed"
   #filter = "all";
 
+  // Texto del buscador
+  #search = "";
+
   constructor() {
     super();
 
@@ -237,6 +240,11 @@ class TaskApp extends HTMLElement {
 
     this.addButton.addEventListener("click", () => this.formModal.open());
     this.formModal.addEventListener("task-save", (event) => this.#onTaskSave(event));
+
+    this.searchInput.addEventListener("input", () => {
+      this.#search = this.searchInput.value;
+      this.#render();
+    });
 
     this.filterButton.addEventListener("click", () => this.#toggleFilterMenu());
     this.filterOptions.forEach((option) => {
@@ -405,22 +413,30 @@ class TaskApp extends HTMLElement {
   #render() {
     const visible = this.#getVisibleTasks();
 
-    // "Sin resultados" solo si hay tareas pero el filtro las oculta todas
-    this.list.filtered = this.#filter !== "all" && this.#tasks.length > 0;
+    // "Sin resultados" solo si hay tareas pero el filtro o la búsqueda las ocultan todas
+    const hasFilters = this.#filter !== "all" || this.#search.trim() !== "";
+
+    this.list.filtered = hasFilters && this.#tasks.length > 0;
     this.list.tasks = visible;
   }
 
-  // Aplica el filtro por estado a la lista completa
+  // Aplica el filtro por estado y después la búsqueda
   #getVisibleTasks() {
+    let tasks = this.#tasks;
+
     if (this.#filter === "pending") {
-      return this.#tasks.filter((task) => !task.completed);
+      tasks = tasks.filter((task) => !task.completed);
+    } else if (this.#filter === "completed") {
+      tasks = tasks.filter((task) => task.completed);
     }
 
-    if (this.#filter === "completed") {
-      return this.#tasks.filter((task) => task.completed);
+    const text = this.#search.trim();
+
+    if (text !== "") {
+      tasks = tasks.filter((task) => task.title.includes(text));
     }
 
-    return this.#tasks;
+    return tasks;
   }
 }
 
