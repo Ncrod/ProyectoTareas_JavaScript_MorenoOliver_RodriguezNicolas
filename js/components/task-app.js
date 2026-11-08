@@ -1,6 +1,7 @@
 import "./task-list.js";
 import "./task-form-modal.js";
 import "./import-modal.js";
+import { getTasks } from "../services/storage-service.js";
 
 const template = document.createElement("template");
 
@@ -53,6 +54,9 @@ template.innerHTML = `
 `;
 
 class TaskApp extends HTMLElement {
+  // Lista completa de tareas (viene del localStorage)
+  #tasks = [];
+
   constructor() {
     super();
 
@@ -64,6 +68,21 @@ class TaskApp extends HTMLElement {
     this.list = root.querySelector("task-list");
     this.formModal = root.querySelector("task-form-modal");
     this.importModal = root.querySelector("import-modal");
+  }
+
+  connectedCallback() {
+    this.#loadTasks();
+  }
+
+  // Lee las tareas guardadas y vuelve a dibujar
+  #loadTasks() {
+    this.#tasks = getTasks();
+    this.#render();
+  }
+
+  // Dibuja la pantalla con el estado actual
+  #render() {
+    this.list.tasks = this.#tasks;
   }
 }
 
