@@ -2,6 +2,7 @@ import "./task-list.js";
 import "./task-form-modal.js";
 import "./import-modal.js";
 import { getTasks } from "../services/storage-service.js";
+import { addTask } from "../services/task-service.js";
 
 const template = document.createElement("template");
 
@@ -168,6 +169,9 @@ class TaskApp extends HTMLElement {
     this.importButton = root.querySelector(".import");
     this.filterButton = root.querySelector(".filter");
     this.clearButton = root.querySelector(".clear");
+
+    this.addButton.addEventListener("click", () => this.formModal.open());
+    this.formModal.addEventListener("task-save", (event) => this.#onTaskSave(event));
     this.list = root.querySelector("task-list");
     this.formModal = root.querySelector("task-form-modal");
     this.importModal = root.querySelector("import-modal");
@@ -181,6 +185,17 @@ class TaskApp extends HTMLElement {
   #loadTasks() {
     this.#tasks = getTasks();
     this.#render();
+  }
+
+  // Guardar desde el formulario (crear). Editar se agrega en el punto 3.7
+  #onTaskSave(event) {
+    const { id, title, createdAt, completed } = event.detail;
+
+    if (!id) {
+      addTask({ title, createdAt, completed });
+    }
+
+    this.#loadTasks();
   }
 
   // Dibuja la pantalla con el estado actual
