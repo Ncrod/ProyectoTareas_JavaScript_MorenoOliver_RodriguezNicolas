@@ -192,6 +192,15 @@ template.innerHTML = `
   </dialog>
 `;
 
+// Convierte una fecha a "AAAA-MM-DD" (hora local) para el input de fecha
+function toDateInputValue(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
 class TaskFormModal extends HTMLElement {
   // Tarea que se está editando. null = modo crear
   #task = null;
@@ -230,8 +239,12 @@ class TaskFormModal extends HTMLElement {
       this.titleEl.textContent = "Editar tarea";
       this.titleInput.value = task.title;
       this.completedInput.checked = Boolean(task.completed);
+      this.dateInput.value = toDateInputValue(new Date(task.createdAt));
+      this.dateInput.readOnly = true;
     } else {
       this.titleEl.textContent = "Nueva tarea";
+      this.dateInput.value = toDateInputValue(new Date());
+      this.dateInput.readOnly = false;
     }
 
     this.dialog.showModal();
