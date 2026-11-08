@@ -6,6 +6,14 @@ import "./toast-message.js";
 import { getTasks } from "../services/storage-service.js";
 import { addImportedTasks, addTask, clearAll, deleteTask, toggleTask, updateTask } from "../services/task-service.js";
 
+// Pasa a minúsculas y quita las tildes: "Camión" -> "camion"
+function normalize(text) {
+  return text
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase();
+}
+
 const template = document.createElement("template");
 
 template.innerHTML = `
@@ -430,10 +438,10 @@ class TaskApp extends HTMLElement {
       tasks = tasks.filter((task) => task.completed);
     }
 
-    const text = this.#search.trim();
+    const text = normalize(this.#search.trim());
 
     if (text !== "") {
-      tasks = tasks.filter((task) => task.title.includes(text));
+      tasks = tasks.filter((task) => normalize(task.title).includes(text));
     }
 
     return tasks;
