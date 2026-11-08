@@ -1,6 +1,7 @@
 import "./task-list.js";
 import "./task-form-modal.js";
 import "./import-modal.js";
+import "./confirm-dialog.js";
 import { getTasks } from "../services/storage-service.js";
 import { addImportedTasks, addTask, clearAll, deleteTask, toggleTask, updateTask } from "../services/task-service.js";
 
@@ -150,6 +151,7 @@ template.innerHTML = `
 
   <task-form-modal></task-form-modal>
   <import-modal></import-modal>
+  <confirm-dialog></confirm-dialog>
 `;
 
 class TaskApp extends HTMLElement {
@@ -184,6 +186,7 @@ class TaskApp extends HTMLElement {
     this.list = root.querySelector("task-list");
     this.formModal = root.querySelector("task-form-modal");
     this.importModal = root.querySelector("import-modal");
+    this.confirmDialog = root.querySelector("confirm-dialog");
   }
 
   connectedCallback() {
@@ -205,10 +208,24 @@ class TaskApp extends HTMLElement {
     }
   }
 
-  // Opción "Eliminar" de una tarea (la confirmación se agrega en el punto 4.1)
-  #onTaskDelete(event) {
-    deleteTask(event.detail.id);
-    this.#loadTasks();
+  // Opción "Eliminar" de una tarea: pide confirmación antes de borrar
+  async #onTaskDelete(event) {
+    const task = this.#tasks.find((item) => item.id === event.detail.id);
+
+    if (!task) {
+      return;
+    }
+
+    const accepted = await this.confirmDialog.open({
+      title: "Eliminar tarea",
+      message: `¿Quieres eliminar "${task.title}"? Esta acción no se puede deshacer.`,
+      confirmText: "Eliminar",
+    });
+
+    if (accepted) {
+      deleteTask(task.id);
+      this.#loadTasks();
+    }
   }
 
   // Botón "Vaciar" (la confirmación se agrega en el punto 4.2)
