@@ -20,6 +20,10 @@ template.innerHTML = `
       display: block;
     }
 
+    [hidden] {
+      display: none !important;
+    }
+
     .app {
       display: flex;
       flex-direction: column;
@@ -114,6 +118,50 @@ template.innerHTML = `
       background: var(--color-primary);
       color: var(--color-on-primary);
     }
+
+    .filter-wrapper {
+      position: relative;
+    }
+
+    .filter-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      z-index: var(--z-dropdown);
+      min-width: 190px;
+      padding: 8px;
+      background: var(--color-surface-raised);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-row);
+    }
+
+    .filter-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--color-text);
+      font: inherit;
+      font-size: var(--font-size-task);
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .filter-option:hover,
+    .filter-option:focus-visible {
+      background: var(--color-control);
+    }
+
+    .filter-option[aria-checked="true"]::after {
+      content: "✓";
+      color: var(--color-success);
+    }
   </style>
 
   <div class="app">
@@ -136,9 +184,17 @@ template.innerHTML = `
           Importar tarea
         </button>
 
-        <button class="btn filter" type="button" aria-label="Filtrar tareas" aria-haspopup="true" aria-expanded="false">
-          <img src="public/filtro.svg" alt="">
-        </button>
+        <div class="filter-wrapper">
+          <button class="btn filter" type="button" aria-label="Filtrar tareas" aria-haspopup="true" aria-expanded="false">
+            <img src="public/filtro.svg" alt="">
+          </button>
+
+          <div class="filter-menu" role="menu" aria-label="Filtrar por estado" hidden>
+            <button class="filter-option" type="button" role="menuitemradio" aria-checked="true" data-filter="all">Todas</button>
+            <button class="filter-option" type="button" role="menuitemradio" aria-checked="false" data-filter="pending">Pendientes</button>
+            <button class="filter-option" type="button" role="menuitemradio" aria-checked="false" data-filter="completed">Completadas</button>
+          </div>
+        </div>
 
         <button class="btn clear" type="button">
           <img src="public/papelera.svg" alt="">
@@ -160,6 +216,9 @@ class TaskApp extends HTMLElement {
   // Lista completa de tareas (viene del localStorage)
   #tasks = [];
 
+  // Filtro por estado: "all" | "pending" | "completed"
+  #filter = "all";
+
   constructor() {
     super();
 
@@ -172,10 +231,23 @@ class TaskApp extends HTMLElement {
     this.addButton = root.querySelector(".add");
     this.importButton = root.querySelector(".import");
     this.filterButton = root.querySelector(".filter");
+    this.filterMenu = root.querySelector(".filter-menu");
+    this.filterOptions = root.querySelectorAll(".filter-option");
     this.clearButton = root.querySelector(".clear");
 
     this.addButton.addEventListener("click", () => this.formModal.open());
     this.formModal.addEventListener("task-save", (event) => this.#onTaskSave(event));
+
+    this.filterButton.addEventListener("click", () => this.#toggleFilterMenu());
+    this.filterOptions.forEach((option) => {
+      option.addEventListener("click", () => this.#setFilter(option.dataset.filter));
+    });
+    this.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !this.filterMenu.hidden) {
+        this.#closeFilterMenu();
+        this.filterButton.focus();
+      }
+    });
 
     this.importButton.addEventListener("click", () => this.importModal.open());
     this.clearButton.addEventListener("click", () => this.#onClear());
@@ -193,7 +265,47 @@ class TaskApp extends HTMLElement {
   }
 
   connectedCallback() {
+    document.addEventListener("click", this.#onDocumentClick);
     this.#loadTasks();
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener("click", this.#onDocumentClick);
+  }
+
+  // Cierra el popup del filtro al hacer clic fuera de él
+  #onDocumentClick = (event) => {
+    const path = event.composedPath();
+
+    if (!path.includes(this.filterMenu) && !path.includes(this.filterButton)) {
+      this.#closeFilterMenu();
+    }
+  };
+
+  #toggleFilterMenu() {
+    if (this.filterMenu.hidden) {
+      this.filterMenu.hidden = false;
+      this.filterButton.setAttribute("aria-expanded", "true");
+    } else {
+      this.#closeFilterMenu();
+    }
+  }
+
+  #closeFilterMenu() {
+    this.filterMenu.hidden = true;
+    this.filterButton.setAttribute("aria-expanded", "false");
+  }
+
+  // Elige un filtro, marca la opción activa y cierra el popup
+  #setFilter(filter) {
+    this.#filter = filter;
+
+    this.filterOptions.forEach((option) => {
+      option.setAttribute("aria-checked", String(option.dataset.filter === filter));
+    });
+
+    this.#closeFilterMenu();
+    this.#render();
   }
 
   // Lee las tareas guardadas y vuelve a dibujar
