@@ -232,6 +232,20 @@ class TaskFormModal extends HTMLElement {
     this.titleError = root.querySelector("#title-error");
     this.saveButton = root.querySelector(".save");
 
+    // Cerrar con la X y con Cancelar
+    root.querySelector(".close").addEventListener("click", () => this.close());
+    root.querySelector(".cancel").addEventListener("click", () => this.close());
+
+    // Cerrar con clic en el fondo (el <dialog> no tiene padding,
+    // así que un clic directo sobre él es un clic en el fondo)
+    this.dialog.addEventListener("click", (event) => {
+      if (event.target === this.dialog) {
+        this.close();
+      }
+    });
+
+    // La tecla Esc ya cierra el <dialog> por defecto (showModal)
+
     this.saveButton.addEventListener("click", () => this.#submit());
     this.form.addEventListener("submit", (event) => {
       event.preventDefault();
