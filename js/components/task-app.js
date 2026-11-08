@@ -403,7 +403,24 @@ class TaskApp extends HTMLElement {
 
   // Dibuja la pantalla con el estado actual
   #render() {
-    this.list.tasks = this.#tasks;
+    const visible = this.#getVisibleTasks();
+
+    // "Sin resultados" solo si hay tareas pero el filtro las oculta todas
+    this.list.filtered = this.#filter !== "all" && this.#tasks.length > 0;
+    this.list.tasks = visible;
+  }
+
+  // Aplica el filtro por estado a la lista completa
+  #getVisibleTasks() {
+    if (this.#filter === "pending") {
+      return this.#tasks.filter((task) => !task.completed);
+    }
+
+    if (this.#filter === "completed") {
+      return this.#tasks.filter((task) => task.completed);
+    }
+
+    return this.#tasks;
   }
 }
 
