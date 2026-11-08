@@ -36,7 +36,7 @@ template.innerHTML = `
       padding: 10px 20px;
       background: var(--color-surface);
       border: 1px solid var(--color-border);
-      border-radius: 15px;
+      border-radius: var(--radius-row);
       transition: border-color var(--transition);
     }
 
@@ -71,7 +71,7 @@ template.innerHTML = `
     }
 
     .title {
-      font-size: 17px;
+      font-size: var(--font-size-task);
       font-weight: 500;
       overflow-wrap: anywhere;
     }
@@ -118,9 +118,9 @@ template.innerHTML = `
       top: calc(100% + 8px);
       min-width: 190px;
       padding: 8px;
-      background: var(--color-surface);
+      background: var(--color-surface-raised);
       border: 1px solid var(--color-border);
-      border-radius: 15px;
+      border-radius: var(--radius-row);
     }
 
     .menu-item {
@@ -133,13 +133,13 @@ template.innerHTML = `
       border-radius: 12px;
       background: transparent;
       text-align: left;
-      font-size: 17px;
+      font-size: var(--font-size-task);
       font-weight: 500;
     }
 
     .menu-item:hover,
     .menu-item:focus-visible {
-      background: var(--color-surface-raised);
+      background: var(--color-control);
     }
 
     .menu-item img,
