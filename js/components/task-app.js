@@ -393,9 +393,13 @@ class TaskApp extends HTMLElement {
     });
 
     if (accepted) {
-      deleteTask(task.id);
+      if (deleteTask(task.id)) {
+        this.toast.show("Tarea eliminada");
+      } else {
+        this.#showSaveError();
+      }
+
       this.#loadTasks();
-      this.toast.show("Tarea eliminada");
     }
   }
 
@@ -415,9 +419,13 @@ class TaskApp extends HTMLElement {
     });
 
     if (accepted) {
-      clearAll();
+      if (clearAll() === null) {
+        this.#showSaveError();
+      } else {
+        this.toast.show("Lista vaciada");
+      }
+
       this.#loadTasks();
-      this.toast.show("Lista vaciada");
     }
   }
 
@@ -427,7 +435,9 @@ class TaskApp extends HTMLElement {
 
     this.#loadTasks();
 
-    if (added.length === 0) {
+    if (added === null) {
+      this.#showSaveError();
+    } else if (added.length === 0) {
       this.toast.show("Esas tareas ya estaban importadas");
     } else {
       const text = added.length === 1 ? "1 tarea importada" : `${added.length} tareas importadas`;
@@ -440,11 +450,21 @@ class TaskApp extends HTMLElement {
     const { id, title, createdAt, completed } = event.detail;
 
     if (id) {
-      updateTask(id, { title, completed });
-      this.toast.show("Tarea actualizada");
+      const updated = updateTask(id, { title, completed });
+
+      if (updated) {
+        this.toast.show("Tarea actualizada");
+      } else {
+        this.#showSaveError();
+      }
     } else {
-      addTask({ title, createdAt, completed });
-      this.toast.show("Tarea creada");
+      const created = addTask({ title, createdAt, completed });
+
+      if (created) {
+        this.toast.show("Tarea creada");
+      } else {
+        this.#showSaveError();
+      }
     }
 
     this.#loadTasks();
@@ -452,8 +472,19 @@ class TaskApp extends HTMLElement {
 
   // Clic en el círculo de una tarea: cambia pendiente <-> terminada
   #onTaskToggle(event) {
-    toggleTask(event.detail.id);
+    if (!toggleTask(event.detail.id)) {
+      this.#showSaveError();
+    }
+
     this.#loadTasks();
+  }
+
+  // Aviso cuando el navegador no deja guardar (almacenamiento lleno o desactivado)
+  #showSaveError() {
+    this.toast.show(
+      "No se pudo guardar. Revisa que el navegador permita guardar datos y tenga espacio.",
+      "error"
+    );
   }
 
   // Dibuja la pantalla con el estado actual

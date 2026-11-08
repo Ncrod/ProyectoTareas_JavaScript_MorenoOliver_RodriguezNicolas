@@ -20,7 +20,10 @@ export function addTask({ title, completed = false, createdAt } = {}) {
     imported: false,
   };
 
-  saveTasks([...getTasks(), task]);
+  if (!saveTasks([...getTasks(), task])) {
+    return null;
+  }
+
   return task;
 }
 
@@ -49,7 +52,11 @@ export function updateTask(id, changes = {}) {
   }
 
   tasks[index] = updated;
-  saveTasks(tasks);
+
+  if (!saveTasks(tasks)) {
+    return null;
+  }
+
   return updated;
 }
 
@@ -61,8 +68,7 @@ export function deleteTask(id) {
     return false;
   }
 
-  saveTasks(remaining);
-  return true;
+  return saveTasks(remaining);
 }
 
 export function toggleTask(id) {
@@ -74,20 +80,26 @@ export function toggleTask(id) {
   }
 
   task.completed = !task.completed;
-  saveTasks(tasks);
+
+  if (!saveTasks(tasks)) {
+    return null;
+  }
+
   return task;
 }
 
 export function completeAll() {
   const tasks = getTasks().map((task) => ({ ...task, completed: true }));
 
-  saveTasks(tasks);
+  if (!saveTasks(tasks)) {
+    return null;
+  }
+
   return tasks;
 }
 
 export function clearAll() {
-  saveTasks([]);
-  return [];
+  return saveTasks([]) ? [] : null;
 }
 
 export function addImportedTasks(importedTasks) {
@@ -116,8 +128,8 @@ export function addImportedTasks(importedTasks) {
     toAdd.push({ ...task, imported: true });
   }
 
-  if (toAdd.length > 0) {
-    saveTasks([...current, ...toAdd]);
+  if (toAdd.length > 0 && !saveTasks([...current, ...toAdd])) {
+    return null;
   }
 
   return toAdd;
