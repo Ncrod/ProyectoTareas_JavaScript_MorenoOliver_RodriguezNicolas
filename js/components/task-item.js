@@ -224,12 +224,16 @@ class TaskItem extends HTMLElement {
 
     this.toggleButton.addEventListener("click", () => this.#emit("task-toggle"));
     this.menuButton.addEventListener("click", () => this.#toggleMenu());
+    // Al elegir una opción el menú se oculta: el foco pasa al botón de tres puntos
+    // para que, al cerrar el modal, el teclado siga en esta tarea
     this.editButton.addEventListener("click", () => {
       this.#closeMenu();
+      this.menuButton.focus();
       this.#emit("task-edit");
     });
     this.deleteButton.addEventListener("click", () => {
       this.#closeMenu();
+      this.menuButton.focus();
       this.#emit("task-delete");
     });
 
