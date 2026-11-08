@@ -300,6 +300,9 @@ class TaskItem extends HTMLElement {
       this.menu.hidden = false;
       this.menuButton.setAttribute("aria-expanded", "true");
       this.setAttribute("menu-open", "");
+
+      // El foco pasa a la primera opción visible (editar está oculto en las importadas)
+      this.menu.querySelector(".menu-item:not([hidden])")?.focus();
     } else {
       this.#closeMenu();
     }

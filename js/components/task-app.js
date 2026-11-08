@@ -332,6 +332,9 @@ class TaskApp extends HTMLElement {
     if (this.filterMenu.hidden) {
       this.filterMenu.hidden = false;
       this.filterButton.setAttribute("aria-expanded", "true");
+
+      // El foco pasa a la opción activa
+      this.filterMenu.querySelector('[aria-checked="true"]').focus();
     } else {
       this.#closeFilterMenu();
     }
@@ -351,6 +354,7 @@ class TaskApp extends HTMLElement {
     });
 
     this.#closeFilterMenu();
+    this.filterButton.focus();
     this.#render();
   }
 
