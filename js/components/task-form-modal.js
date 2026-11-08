@@ -8,6 +8,16 @@ template.innerHTML = `
       box-sizing: border-box;
     }
 
+    :host {
+      --modal-padding: var(--space-4);
+    }
+
+    @media (min-width: 480px) {
+      :host {
+        --modal-padding: var(--space-6);
+      }
+    }
+
     button {
       font: inherit;
       color: inherit;
@@ -42,7 +52,7 @@ template.innerHTML = `
       align-items: center;
       justify-content: space-between;
       gap: var(--space-4);
-      padding: var(--space-4) var(--space-6);
+      padding: var(--space-4) var(--modal-padding);
       border-bottom: 1px solid var(--color-border);
     }
 
@@ -72,7 +82,7 @@ template.innerHTML = `
       flex: 1;
       min-height: 0;
       overflow-y: auto;
-      padding: var(--space-4) var(--space-6);
+      padding: var(--space-4) var(--modal-padding);
     }
 
     .field {
@@ -142,13 +152,14 @@ template.innerHTML = `
 
     .footer {
       display: flex;
-      justify-content: flex-end;
+      flex-direction: column-reverse;
       gap: var(--space-2);
-      padding: var(--space-4) var(--space-6);
+      padding: var(--space-4) var(--modal-padding);
       border-top: 1px solid var(--color-border);
     }
 
     .btn {
+      width: 100%;
       height: 42px;
       padding: 9px 12px;
       border: none;
@@ -165,6 +176,17 @@ template.innerHTML = `
     .btn.primary {
       background: var(--color-primary);
       color: var(--color-on-primary);
+    }
+
+    @media (min-width: 480px) {
+      .footer {
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        width: auto;
+      }
     }
   </style>
 

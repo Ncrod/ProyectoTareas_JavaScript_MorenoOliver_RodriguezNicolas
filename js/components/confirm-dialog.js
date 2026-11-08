@@ -8,6 +8,16 @@ template.innerHTML = `
       box-sizing: border-box;
     }
 
+    :host {
+      --modal-padding: var(--space-4);
+    }
+
+    @media (min-width: 480px) {
+      :host {
+        --modal-padding: var(--space-6);
+      }
+    }
+
     button {
       font: inherit;
       color: inherit;
@@ -16,7 +26,7 @@ template.innerHTML = `
 
     dialog {
       width: min(420px, calc(100vw - 2rem));
-      padding: var(--space-6);
+      padding: var(--modal-padding);
       color: var(--color-text);
       background: var(--color-surface);
       border: 1px solid var(--color-border);
@@ -41,11 +51,12 @@ template.innerHTML = `
 
     .actions {
       display: flex;
-      justify-content: flex-end;
+      flex-direction: column-reverse;
       gap: var(--space-2);
     }
 
     .btn {
+      width: 100%;
       height: 42px;
       padding: 9px 12px;
       border: none;
@@ -67,6 +78,17 @@ template.innerHTML = `
     .btn.danger {
       background: var(--color-danger);
       color: var(--color-on-primary);
+    }
+
+    @media (min-width: 480px) {
+      .actions {
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        width: auto;
+      }
     }
   </style>
 
