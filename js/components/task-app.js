@@ -2,7 +2,7 @@ import "./task-list.js";
 import "./task-form-modal.js";
 import "./import-modal.js";
 import { getTasks } from "../services/storage-service.js";
-import { addTask, toggleTask } from "../services/task-service.js";
+import { addTask, toggleTask, updateTask } from "../services/task-service.js";
 
 const template = document.createElement("template");
 
@@ -175,6 +175,7 @@ class TaskApp extends HTMLElement {
 
     // Eventos que salen de cada <task-item> (burbujean hasta la lista)
     this.list.addEventListener("task-toggle", (event) => this.#onTaskToggle(event));
+    this.list.addEventListener("task-edit", (event) => this.#onTaskEdit(event));
     this.list = root.querySelector("task-list");
     this.formModal = root.querySelector("task-form-modal");
     this.importModal = root.querySelector("import-modal");
@@ -190,11 +191,22 @@ class TaskApp extends HTMLElement {
     this.#render();
   }
 
-  // Guardar desde el formulario (crear). Editar se agrega en el punto 3.7
+  // Opción "Actualizar" de una tarea: abre el formulario con sus datos
+  #onTaskEdit(event) {
+    const task = this.#tasks.find((item) => item.id === event.detail.id);
+
+    if (task) {
+      this.formModal.open({ task });
+    }
+  }
+
+  // Guardar desde el formulario: con id actualiza, sin id crea
   #onTaskSave(event) {
     const { id, title, createdAt, completed } = event.detail;
 
-    if (!id) {
+    if (id) {
+      updateTask(id, { title, completed });
+    } else {
       addTask({ title, createdAt, completed });
     }
 
