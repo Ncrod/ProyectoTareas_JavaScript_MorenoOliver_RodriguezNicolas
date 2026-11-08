@@ -27,7 +27,7 @@ template.innerHTML = `
       color: var(--color-text);
       background: var(--color-surface);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-card);
     }
 
     dialog[open] {
@@ -115,7 +115,7 @@ template.innerHTML = `
       gap: var(--space-3);
       padding: var(--space-3);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-row);
       font-size: var(--font-size-sm);
       cursor: pointer;
     }
@@ -170,20 +170,20 @@ template.innerHTML = `
     }
 
     .btn {
-          color: var(--color-text);
-      padding: var(--space-2) var(--space-4);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm);
-      background: var(--color-surface-raised);
-      font-size: var(--font-size-sm);
+      height: 42px;
+      padding: 9px 12px;
+      border: none;
+      border-radius: var(--radius-button);
+      background: var(--color-control);
+      color: var(--color-text);
+      font-size: var(--font-size-button);
     }
 
     .btn:hover {
-      border-color: var(--color-text-muted);
+      filter: brightness(1.2);
     }
 
     .btn.primary {
-      border-color: var(--color-primary);
       background: var(--color-primary);
       color: var(--color-on-primary);
     }
