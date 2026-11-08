@@ -2,6 +2,7 @@ import "./task-list.js";
 import "./task-form-modal.js";
 import "./import-modal.js";
 import "./confirm-dialog.js";
+import "./toast-message.js";
 import { getTasks } from "../services/storage-service.js";
 import { addImportedTasks, addTask, clearAll, deleteTask, toggleTask, updateTask } from "../services/task-service.js";
 
@@ -152,6 +153,7 @@ template.innerHTML = `
   <task-form-modal></task-form-modal>
   <import-modal></import-modal>
   <confirm-dialog></confirm-dialog>
+  <toast-message></toast-message>
 `;
 
 class TaskApp extends HTMLElement {
@@ -187,6 +189,7 @@ class TaskApp extends HTMLElement {
     this.formModal = root.querySelector("task-form-modal");
     this.importModal = root.querySelector("import-modal");
     this.confirmDialog = root.querySelector("confirm-dialog");
+    this.toast = root.querySelector("toast-message");
   }
 
   connectedCallback() {
@@ -225,6 +228,7 @@ class TaskApp extends HTMLElement {
     if (accepted) {
       deleteTask(task.id);
       this.#loadTasks();
+      this.toast.show("Tarea eliminada");
     }
   }
 
@@ -246,13 +250,22 @@ class TaskApp extends HTMLElement {
     if (accepted) {
       clearAll();
       this.#loadTasks();
+      this.toast.show("Lista vaciada");
     }
   }
 
   // Tareas elegidas en el modal de importar (los repetidos se descartan solos)
   #onTasksImport(event) {
-    addImportedTasks(event.detail.tasks);
+    const added = addImportedTasks(event.detail.tasks);
+
     this.#loadTasks();
+
+    if (added.length === 0) {
+      this.toast.show("Esas tareas ya estaban importadas");
+    } else {
+      const text = added.length === 1 ? "1 tarea importada" : `${added.length} tareas importadas`;
+      this.toast.show(text);
+    }
   }
 
   // Guardar desde el formulario: con id actualiza, sin id crea
@@ -261,8 +274,10 @@ class TaskApp extends HTMLElement {
 
     if (id) {
       updateTask(id, { title, completed });
+      this.toast.show("Tarea actualizada");
     } else {
       addTask({ title, createdAt, completed });
+      this.toast.show("Tarea creada");
     }
 
     this.#loadTasks();
