@@ -228,10 +228,25 @@ class TaskApp extends HTMLElement {
     }
   }
 
-  // Botón "Vaciar" (la confirmación se agrega en el punto 4.2)
-  #onClear() {
-    clearAll();
-    this.#loadTasks();
+  // Botón "Vaciar": pide confirmación antes de borrar todo
+  async #onClear() {
+    const total = this.#tasks.length;
+
+    // Si no hay tareas no hay nada que vaciar
+    if (total === 0) {
+      return;
+    }
+
+    const accepted = await this.confirmDialog.open({
+      title: "Vaciar lista",
+      message: `Se ${total === 1 ? "eliminará 1 tarea" : `eliminarán ${total} tareas`} de la lista. Esta acción no se puede deshacer.`,
+      confirmText: "Vaciar",
+    });
+
+    if (accepted) {
+      clearAll();
+      this.#loadTasks();
+    }
   }
 
   // Tareas elegidas en el modal de importar (los repetidos se descartan solos)
