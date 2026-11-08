@@ -115,33 +115,38 @@ template.innerHTML = `
     .menu {
       position: absolute;
       right: 0;
-      top: calc(100% + var(--space-1));
-      min-width: 140px;
-      padding: var(--space-1);
-      background: var(--color-surface-raised);
+      top: calc(100% + 8px);
+      min-width: 190px;
+      padding: 8px;
+      background: var(--color-surface);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
+      border-radius: 15px;
     }
 
     .menu-item {
       display: flex;
       align-items: center;
-      gap: var(--space-2);
+      gap: 12px;
       width: 100%;
-      padding: var(--space-2) var(--space-3);
+      padding: 12px 18px;
       border: none;
-      border-radius: var(--radius-sm);
+      border-radius: 12px;
       background: transparent;
       text-align: left;
-      font-size: var(--font-size-sm);
+      font-size: 17px;
+      font-weight: 500;
     }
 
-    .menu-item:hover {
-      background: var(--color-surface);
+    .menu-item:hover,
+    .menu-item:focus-visible {
+      background: var(--color-surface-raised);
     }
 
-    .menu-item.danger {
-      color: var(--color-danger);
+    .menu-item img,
+    .menu-item svg {
+      flex: none;
+      width: 18px;
+      height: 18px;
     }
       </style>
 
@@ -158,11 +163,7 @@ template.innerHTML = `
 
     <div class="menu-wrapper">
       <button class="menu-button" type="button" aria-haspopup="true" aria-expanded="false">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-          <circle cx="3" cy="8" r="1.3" />
-          <circle cx="8" cy="8" r="1.3" />
-          <circle cx="13" cy="8" r="1.3" />
-        </svg>
+        <img src="public/options.svg" width="24" height="24" alt="">
       </button>
       <div class="menu" hidden>
                 <button class="menu-item edit" type="button">
@@ -170,16 +171,10 @@ template.innerHTML = `
             <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
             <path d="m15 5 4 4" />
           </svg>
-          Editar
+          Actualizar
         </button>
-        <button class="menu-item danger delete" type="button">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M3 6h18" />
-            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-            <path d="M10 11v6" />
-            <path d="M14 11v6" />
-          </svg>
+        <button class="menu-item delete" type="button">
+          <img src="public/papelera.svg" width="18" height="18" alt="">
           Eliminar
         </button>
       </div>
