@@ -162,18 +162,18 @@ template.innerHTML = `
     </div>
 
     <div class="menu-wrapper">
-      <button class="menu-button" type="button" aria-haspopup="true" aria-expanded="false">
+      <button class="menu-button" type="button" aria-haspopup="menu" aria-expanded="false">
         <img src="public/options.svg" width="24" height="24" alt="">
       </button>
-      <div class="menu" hidden>
-                <button class="menu-item edit" type="button">
+      <div class="menu" role="menu" hidden>
+        <button class="menu-item edit" type="button" role="menuitem">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
             <path d="m15 5 4 4" />
           </svg>
           Actualizar
         </button>
-        <button class="menu-item delete" type="button">
+        <button class="menu-item delete" type="button" role="menuitem">
           <img src="public/papelera.svg" width="18" height="18" alt="">
           Eliminar
         </button>

@@ -58,8 +58,8 @@ template.innerHTML = `
 
     .toolbar {
       display: flex;
-      flex-direction: column;
-      align-items: stretch;
+      flex-wrap: wrap;
+      align-items: center;
       gap: 12px;
     }
 
@@ -136,7 +136,7 @@ template.innerHTML = `
 
     .filter-menu {
       position: absolute;
-      right: 0;
+      left: 0;
       top: calc(100% + 8px);
       z-index: var(--z-dropdown);
       min-width: 190px;
@@ -187,14 +187,13 @@ template.innerHTML = `
         justify-content: space-between;
       }
 
-      .toolbar {
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-      }
-
       .search {
         width: 360px;
+      }
+
+      .filter-menu {
+        right: 0;
+        left: auto;
       }
     }
   </style>
@@ -223,7 +222,7 @@ template.innerHTML = `
         </button>
 
         <div class="filter-wrapper">
-          <button class="btn filter" type="button" aria-label="Filtrar tareas" aria-haspopup="true" aria-expanded="false">
+          <button class="btn filter" type="button" aria-label="Filtrar tareas" aria-haspopup="menu" aria-expanded="false">
             <img src="public/filtro.svg" alt="">
           </button>
 
