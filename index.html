@@ -11,14 +11,67 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/app.css">
 
     <script type="module" src="js/main.js"></script>
   </head>
 
   <body>
-    <!-- Todo el contenido (título, buscador, botones y lista) lo dibuja <task-app> -->
     <main>
-      <task-app></task-app>
+      <!-- <task-app> conecta todo lo de adentro: botones, lista y modales -->
+      <task-app>
+        <div class="app">
+          <header class="header">
+            <div>
+              <h1 class="title">Bandeja de entrada</h1>
+              <p class="summary" aria-live="polite"></p>
+            </div>
+
+            <div class="toolbar">
+              <label class="search">
+                <img src="public/search.svg" alt="">
+                <input class="search-input" type="search" placeholder="Buscar tareas" aria-label="Buscar tareas" autocomplete="off">
+              </label>
+
+              <button class="btn primary add" type="button">
+                <img src="public/anadir.svg" alt="">
+                Añadir tarea
+              </button>
+
+              <button class="btn primary import" type="button">
+                <img src="public/import.svg" alt="">
+                Importar tarea
+              </button>
+
+              <div class="filter-wrapper">
+                <button class="btn filter" type="button" aria-label="Filtrar tareas" aria-haspopup="menu" aria-expanded="false">
+                  <img src="public/filtro.svg" alt="">
+                </button>
+
+                <div class="filter-menu" role="menu" aria-label="Filtrar por estado" hidden>
+                  <button class="filter-option" type="button" role="menuitemradio" aria-checked="true" data-filter="all">Todas</button>
+                  <button class="filter-option" type="button" role="menuitemradio" aria-checked="false" data-filter="pending">Pendientes</button>
+                  <button class="filter-option" type="button" role="menuitemradio" aria-checked="false" data-filter="completed">Completadas</button>
+                </div>
+              </div>
+
+              <button class="btn clear" type="button">
+                <img src="public/papelera.svg" alt="">
+                Vaciar
+              </button>
+            </div>
+          </header>
+
+          <!-- Las tareas las dibuja <task-list> con JavaScript -->
+          <task-list></task-list>
+        </div>
+
+        <!-- Ventanas emergentes: su contenido lo manejan sus componentes -->
+        <task-form-modal></task-form-modal>
+        <import-modal></import-modal>
+        <confirm-dialog></confirm-dialog>
+        <toast-message></toast-message>
+      </task-app>
     </main>
 
     <noscript>Necesitas activar JavaScript para usar el gestor de tareas.</noscript>

@@ -1,0 +1,173 @@
+/* Estilos de la pantalla principal: título, resumen, barra de acciones y filtro.
+   Los componentes (task-item, modales, etc.) tienen sus propios estilos
+   dentro de su Shadow DOM. */
+
+task-app {
+  display: block;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.title {
+  font-size: var(--font-size-title);
+  font-weight: 600;
+}
+
+.summary {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* ---------- Barra de acciones ---------- */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  height: 42px;
+  padding: 9px 12px;
+  border-radius: 80px;
+  background: var(--color-surface-raised);
+}
+
+.search img,
+.btn img {
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--font-size-button);
+}
+
+.search input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.search:focus-within {
+  outline: 2px solid var(--color-primary);
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 42px;
+  padding: 9px 12px;
+  border: none;
+  border-radius: var(--radius-button);
+  background: var(--color-control);
+  font-size: var(--font-size-button);
+}
+
+.btn:hover {
+  filter: brightness(1.2);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.btn.primary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+/* ---------- Popup del filtro ---------- */
+
+.filter-wrapper {
+  position: relative;
+}
+
+.filter-menu {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 8px);
+  z-index: var(--z-dropdown);
+  min-width: 190px;
+  padding: 8px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-row);
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  font-size: var(--font-size-task);
+  font-weight: 500;
+  text-align: left;
+}
+
+.filter-option:hover,
+.filter-option:focus-visible {
+  background: var(--color-control);
+}
+
+.filter-option:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.filter-option[aria-checked="true"]::after {
+  content: "✓";
+  color: var(--color-success);
+}
+
+/* ---------- Escritorio: título a la izquierda y barra en fila a la derecha ---------- */
+
+@media (min-width: 768px) {
+  .app {
+    gap: 65px;
+  }
+
+  .header {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .search {
+    width: 360px;
+  }
+
+  .filter-menu {
+    right: 0;
+    left: auto;
+  }
+}

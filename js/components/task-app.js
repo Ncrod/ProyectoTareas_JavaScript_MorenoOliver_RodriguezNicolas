@@ -6,6 +6,9 @@ import "./toast-message.js";
 import { getTasks } from "../services/storage-service.js";
 import { addImportedTasks, addTask, clearAll, deleteTask, toggleTask, updateTask } from "../services/task-service.js";
 
+// <task-app> no dibuja nada: el HTML está en index.html y los estilos en css/app.css.
+// Este componente solo conecta los botones y los eventos con los servicios.
+
 // Pasa a minúsculas y quita las tildes: "Camión" -> "camion"
 function normalize(text) {
   return text
@@ -13,246 +16,6 @@ function normalize(text) {
     .replace(/\p{Diacritic}/gu, "")
     .toLowerCase();
 }
-
-const template = document.createElement("template");
-
-template.innerHTML = `
-  <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
-    :host {
-      display: block;
-    }
-
-    [hidden] {
-      display: none !important;
-    }
-
-    .app {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-6);
-    }
-
-    .header {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-    }
-
-    .title {
-      margin: 0;
-      font-size: var(--font-size-title);
-      font-weight: 600;
-    }
-
-    .summary {
-      margin: var(--space-1) 0 0;
-      color: var(--color-text-muted);
-      font-size: var(--font-size-sm);
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .search {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      width: 100%;
-      height: 42px;
-      padding: 9px 12px;
-      border-radius: 80px;
-      background: var(--color-surface-raised);
-    }
-
-    .search img,
-    .btn img {
-      flex: none;
-      width: 18px;
-      height: 18px;
-    }
-
-    .search input {
-      flex: 1;
-      min-width: 0;
-      border: none;
-      outline: none;
-      background: transparent;
-      color: var(--color-text);
-      font: inherit;
-      font-size: var(--font-size-button);
-    }
-
-    .search input::placeholder {
-      color: var(--color-text-muted);
-    }
-
-    .search:focus-within {
-      outline: 2px solid var(--color-primary);
-    }
-
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      height: 42px;
-      padding: 9px 12px;
-      border: none;
-      border-radius: var(--radius-button);
-      background: var(--color-control);
-      color: var(--color-text);
-      font: inherit;
-      font-size: var(--font-size-button);
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      filter: brightness(1.2);
-    }
-
-    .btn:focus-visible {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
-    }
-
-    .btn.primary {
-      background: var(--color-primary);
-      color: var(--color-on-primary);
-    }
-
-    .filter-wrapper {
-      position: relative;
-    }
-
-    .filter-menu {
-      position: absolute;
-      left: 0;
-      top: calc(100% + 8px);
-      z-index: var(--z-dropdown);
-      min-width: 190px;
-      padding: 8px;
-      background: var(--color-surface-raised);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-row);
-    }
-
-    .filter-option {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      width: 100%;
-      padding: 12px 18px;
-      border: none;
-      border-radius: 12px;
-      background: transparent;
-      color: var(--color-text);
-      font: inherit;
-      font-size: var(--font-size-task);
-      font-weight: 500;
-      text-align: left;
-      cursor: pointer;
-    }
-
-    .filter-option:hover,
-    .filter-option:focus-visible {
-      background: var(--color-control);
-    }
-
-    .filter-option:focus-visible {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
-    }
-
-    .filter-option[aria-checked="true"]::after {
-      content: "✓";
-      color: var(--color-success);
-    }
-
-    /* Escritorio: título a la izquierda y barra de acciones en fila a la derecha */
-    @media (min-width: 768px) {
-      .app {
-        gap: 65px;
-      }
-
-      .header {
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        justify-content: space-between;
-      }
-
-      .search {
-        width: 360px;
-      }
-
-      .filter-menu {
-        right: 0;
-        left: auto;
-      }
-    }
-  </style>
-
-  <div class="app">
-    <header class="header">
-      <div>
-        <h1 class="title">Bandeja de entrada</h1>
-        <p class="summary" aria-live="polite"></p>
-      </div>
-
-      <div class="toolbar">
-        <label class="search">
-          <img src="public/search.svg" alt="">
-          <input class="search-input" type="search" placeholder="Buscar tareas" aria-label="Buscar tareas" autocomplete="off">
-        </label>
-
-        <button class="btn primary add" type="button">
-          <img src="public/anadir.svg" alt="">
-          Añadir tarea
-        </button>
-
-        <button class="btn primary import" type="button">
-          <img src="public/import.svg" alt="">
-          Importar tarea
-        </button>
-
-        <div class="filter-wrapper">
-          <button class="btn filter" type="button" aria-label="Filtrar tareas" aria-haspopup="menu" aria-expanded="false">
-            <img src="public/filtro.svg" alt="">
-          </button>
-
-          <div class="filter-menu" role="menu" aria-label="Filtrar por estado" hidden>
-            <button class="filter-option" type="button" role="menuitemradio" aria-checked="true" data-filter="all">Todas</button>
-            <button class="filter-option" type="button" role="menuitemradio" aria-checked="false" data-filter="pending">Pendientes</button>
-            <button class="filter-option" type="button" role="menuitemradio" aria-checked="false" data-filter="completed">Completadas</button>
-          </div>
-        </div>
-
-        <button class="btn clear" type="button">
-          <img src="public/papelera.svg" alt="">
-          Vaciar
-        </button>
-      </div>
-    </header>
-
-    <task-list></task-list>
-  </div>
-
-  <task-form-modal></task-form-modal>
-  <import-modal></import-modal>
-  <confirm-dialog></confirm-dialog>
-  <toast-message></toast-message>
-`;
 
 class TaskApp extends HTMLElement {
   // Lista completa de tareas (viene del localStorage)
@@ -264,27 +27,38 @@ class TaskApp extends HTMLElement {
   // Texto del buscador
   #search = "";
 
-  constructor() {
-    super();
+  // Para conectar los eventos una sola vez
+  #ready = false;
 
-    this.attachShadow({ mode: "open" });
-    this.shadowRoot.append(template.content.cloneNode(true));
+  connectedCallback() {
+    if (!this.#ready) {
+      this.#setup();
+      this.#ready = true;
+    }
 
-    const root = this.shadowRoot;
-    this.toolbar = root.querySelector(".toolbar");
-    this.summary = root.querySelector(".summary");
-    this.searchInput = root.querySelector(".search-input");
-    this.addButton = root.querySelector(".add");
-    this.importButton = root.querySelector(".import");
-    this.filterButton = root.querySelector(".filter");
-    this.filterMenu = root.querySelector(".filter-menu");
-    this.filterOptions = root.querySelectorAll(".filter-option");
-    this.clearButton = root.querySelector(".clear");
-    this.list = root.querySelector("task-list");
-    this.formModal = root.querySelector("task-form-modal");
-    this.importModal = root.querySelector("import-modal");
-    this.confirmDialog = root.querySelector("confirm-dialog");
-    this.toast = root.querySelector("toast-message");
+    document.addEventListener("click", this.#onDocumentClick);
+    this.#loadTasks();
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener("click", this.#onDocumentClick);
+  }
+
+  // Busca los elementos que están en index.html y conecta sus eventos
+  #setup() {
+    this.summary = this.querySelector(".summary");
+    this.searchInput = this.querySelector(".search-input");
+    this.addButton = this.querySelector(".add");
+    this.importButton = this.querySelector(".import");
+    this.filterButton = this.querySelector(".filter");
+    this.filterMenu = this.querySelector(".filter-menu");
+    this.filterOptions = this.querySelectorAll(".filter-option");
+    this.clearButton = this.querySelector(".clear");
+    this.list = this.querySelector("task-list");
+    this.formModal = this.querySelector("task-form-modal");
+    this.importModal = this.querySelector("import-modal");
+    this.confirmDialog = this.querySelector("confirm-dialog");
+    this.toast = this.querySelector("toast-message");
 
     this.addButton.addEventListener("click", () => this.formModal.open());
     this.formModal.addEventListener("task-save", (event) => this.#onTaskSave(event));
@@ -315,14 +89,13 @@ class TaskApp extends HTMLElement {
     this.list.addEventListener("task-delete", (event) => this.#onTaskDelete(event));
   }
 
-  connectedCallback() {
-    document.addEventListener("click", this.#onDocumentClick);
-    this.#loadTasks();
+  // Lee las tareas guardadas y vuelve a dibujar
+  #loadTasks() {
+    this.#tasks = getTasks();
+    this.#render();
   }
 
-  disconnectedCallback() {
-    document.removeEventListener("click", this.#onDocumentClick);
-  }
+  // ---------- Popup del filtro ----------
 
   // Cierra el popup del filtro al hacer clic fuera de él
   #onDocumentClick = (event) => {
@@ -363,11 +136,7 @@ class TaskApp extends HTMLElement {
     this.#render();
   }
 
-  // Lee las tareas guardadas y vuelve a dibujar
-  #loadTasks() {
-    this.#tasks = getTasks();
-    this.#render();
-  }
+  // ---------- Acciones sobre las tareas ----------
 
   // Opción "Actualizar" de una tarea: abre el formulario con sus datos
   #onTaskEdit(event) {
@@ -486,6 +255,8 @@ class TaskApp extends HTMLElement {
       "error"
     );
   }
+
+  // ---------- Dibujar la pantalla ----------
 
   // Dibuja la pantalla con el estado actual
   #render() {

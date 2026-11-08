@@ -32,7 +32,7 @@ Aplicación web para gestionar una lista de tareas, hecha solo con **HTML, CSS y
 ### Tecnologías
 
 - HTML5, CSS3 y JavaScript (módulos ES).
-- **Web Components** con **Shadow DOM** para toda la interfaz.
+- **Web Components** con **Shadow DOM** para las partes dinámicas de la interfaz (tareas, modales y avisos).
 - `localStorage` para guardar las tareas en formato JSON.
 - `fetch` para consumir la API.
 - Fuente [Inter](https://fonts.google.com/specimen/Inter) (Google Fonts).
@@ -131,11 +131,11 @@ Lo genera `generateId()` en `js/utils/id-generator.js`. Las tareas importadas ta
 
 ### Componentes
 
-Toda la interfaz está hecha con Web Components, cada uno con su propio Shadow DOM:
+La estructura fija de la pantalla está en `index.html`. Las partes dinámicas son Web Components, y todos usan su propio Shadow DOM, salvo `<task-app>`, que solo conecta la pantalla y no dibuja nada:
 
 | Componente | Archivo | Qué hace |
 |---|---|---|
-| `<task-app>` | `task-app.js` | Orquestador. Carga las tareas, dibuja la barra (buscador, botones, filtro), escucha los eventos de los demás componentes, llama a los servicios y vuelve a dibujar. |
+| `<task-app>` | `task-app.js` | Orquestador. Envuelve la pantalla que está en `index.html`: carga las tareas, conecta los botones, el buscador y el filtro, escucha los eventos de los demás componentes, llama a los servicios y vuelve a dibujar. No dibuja HTML propio. |
 | `<task-list>` | `task-list.js` | Dibuja varios `<task-item>` y muestra "No hay tareas" o "Sin resultados" si la lista está vacía. |
 | `<task-item>` | `task-item.js` | Una tarea: círculo de estado, título, fecha, etiqueta "Importada" y menú de tres puntos (Actualizar y Eliminar). |
 | `<task-form-modal>` | `task-form-modal.js` | Modal para crear o editar una tarea, con validación del título. |
@@ -216,10 +216,11 @@ Los textos del usuario y de la API se insertan siempre con `textContent` o `.val
 ## Estructura del proyecto
 
 ```
-├── index.html               Página única; solo carga <task-app>
+├── index.html               Estructura fija: título, buscador, botones, filtro y los componentes
 ├── css/
 │   ├── variables.css        Colores, tipografía, espaciado y radios
-│   └── base.css             Reset y estilos globales
+│   ├── base.css             Reset y estilos globales
+│   └── app.css              Estilos de la pantalla principal (barra, botones, filtro)
 ├── js/
 │   ├── main.js              Punto de entrada
 │   ├── components/          Web Components (ver tabla de componentes)

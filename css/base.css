@@ -33,6 +33,10 @@ button {
   cursor: pointer;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   padding: var(--space-4);
 }
