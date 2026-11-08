@@ -2,7 +2,7 @@ import "./task-list.js";
 import "./task-form-modal.js";
 import "./import-modal.js";
 import { getTasks } from "../services/storage-service.js";
-import { addTask } from "../services/task-service.js";
+import { addTask, toggleTask } from "../services/task-service.js";
 
 const template = document.createElement("template");
 
@@ -172,6 +172,9 @@ class TaskApp extends HTMLElement {
 
     this.addButton.addEventListener("click", () => this.formModal.open());
     this.formModal.addEventListener("task-save", (event) => this.#onTaskSave(event));
+
+    // Eventos que salen de cada <task-item> (burbujean hasta la lista)
+    this.list.addEventListener("task-toggle", (event) => this.#onTaskToggle(event));
     this.list = root.querySelector("task-list");
     this.formModal = root.querySelector("task-form-modal");
     this.importModal = root.querySelector("import-modal");
@@ -195,6 +198,12 @@ class TaskApp extends HTMLElement {
       addTask({ title, createdAt, completed });
     }
 
+    this.#loadTasks();
+  }
+
+  // Clic en el círculo de una tarea: cambia pendiente <-> terminada
+  #onTaskToggle(event) {
+    toggleTask(event.detail.id);
     this.#loadTasks();
   }
 
