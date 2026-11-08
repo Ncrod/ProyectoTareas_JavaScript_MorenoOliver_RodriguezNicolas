@@ -35,14 +35,12 @@ template.innerHTML = `
     .app {
       display: flex;
       flex-direction: column;
-      gap: 65px;
+      gap: var(--space-6);
     }
 
     .header {
       display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: space-between;
+      flex-direction: column;
       gap: var(--space-4);
     }
 
@@ -60,8 +58,8 @@ template.innerHTML = `
 
     .toolbar {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
+      flex-direction: column;
+      align-items: stretch;
       gap: 12px;
     }
 
@@ -69,8 +67,7 @@ template.innerHTML = `
       display: flex;
       align-items: center;
       gap: var(--space-2);
-      width: 360px;
-      max-width: 100%;
+      width: 100%;
       height: 42px;
       padding: 9px 12px;
       border-radius: 80px;
@@ -175,6 +172,30 @@ template.innerHTML = `
     .filter-option[aria-checked="true"]::after {
       content: "✓";
       color: var(--color-success);
+    }
+
+    /* Escritorio: título a la izquierda y barra de acciones en fila a la derecha */
+    @media (min-width: 768px) {
+      .app {
+        gap: 65px;
+      }
+
+      .header {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+
+      .toolbar {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .search {
+        width: 360px;
+      }
     }
   </style>
 
