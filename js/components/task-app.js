@@ -52,6 +52,12 @@ template.innerHTML = `
       font-weight: 600;
     }
 
+    .summary {
+      margin: var(--space-1) 0 0;
+      color: var(--color-text-muted);
+      font-size: var(--font-size-sm);
+    }
+
     .toolbar {
       display: flex;
       flex-wrap: wrap;
@@ -174,7 +180,10 @@ template.innerHTML = `
 
   <div class="app">
     <header class="header">
-      <h1 class="title">Bandeja de entrada</h1>
+      <div>
+        <h1 class="title">Bandeja de entrada</h1>
+        <p class="summary"></p>
+      </div>
 
       <div class="toolbar">
         <label class="search">
@@ -238,6 +247,7 @@ class TaskApp extends HTMLElement {
 
     const root = this.shadowRoot;
     this.toolbar = root.querySelector(".toolbar");
+    this.summary = root.querySelector(".summary");
     this.searchInput = root.querySelector(".search-input");
     this.addButton = root.querySelector(".add");
     this.importButton = root.querySelector(".import");
@@ -426,6 +436,19 @@ class TaskApp extends HTMLElement {
 
     this.list.filtered = hasFilters && this.#tasks.length > 0;
     this.list.tasks = visible;
+
+    this.#renderSummary();
+  }
+
+  // Resumen con el total de tareas (sin importar el filtro): "5 tareas · 2 completadas"
+  #renderSummary() {
+    const total = this.#tasks.length;
+    const done = this.#tasks.filter((task) => task.completed).length;
+
+    const totalText = total === 1 ? "1 tarea" : `${total} tareas`;
+    const doneText = done === 1 ? "1 completada" : `${done} completadas`;
+
+    this.summary.textContent = `${totalText} · ${doneText}`;
   }
 
   // Aplica el filtro por estado y después la búsqueda
