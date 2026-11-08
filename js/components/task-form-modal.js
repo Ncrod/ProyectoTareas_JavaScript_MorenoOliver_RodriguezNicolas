@@ -75,6 +75,61 @@ template.innerHTML = `
       padding: var(--space-4) var(--space-6);
     }
 
+    .field {
+      display: grid;
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+
+    .field label {
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+    }
+
+    .required {
+      color: var(--color-danger);
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      height: 42px;
+      padding: 9px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-button);
+      background: var(--color-surface-raised);
+      color: var(--color-text);
+      font: inherit;
+      font-size: var(--font-size-button);
+      color-scheme: dark;
+    }
+
+    input:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 1px;
+    }
+
+    input[readonly] {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: var(--font-size-button);
+      cursor: pointer;
+    }
+
+    input[type="checkbox"] {
+      flex: none;
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: var(--color-success);
+    }
+
     .footer {
       display: flex;
       justify-content: flex-end;
@@ -114,7 +169,20 @@ template.innerHTML = `
     </header>
 
     <form class="body" novalidate>
-      <!-- Los campos van aquí (punto 2.2) -->
+      <div class="field">
+        <label for="task-title">Título <span class="required" aria-hidden="true">*</span></label>
+        <input id="task-title" name="title" type="text" maxlength="120" required autocomplete="off" placeholder="¿Qué hay que hacer?">
+      </div>
+
+      <div class="field">
+        <label for="task-date">Fecha de registro</label>
+        <input id="task-date" name="createdAt" type="date">
+      </div>
+
+      <label class="check">
+        <input id="task-completed" name="completed" type="checkbox">
+        <span>Completada</span>
+      </label>
     </form>
 
     <footer class="footer">
@@ -135,6 +203,9 @@ class TaskFormModal extends HTMLElement {
     this.dialog = root.querySelector("dialog");
     this.titleEl = root.querySelector("#modal-title");
     this.form = root.querySelector("form");
+    this.titleInput = root.querySelector("#task-title");
+    this.dateInput = root.querySelector("#task-date");
+    this.completedInput = root.querySelector("#task-completed");
     this.saveButton = root.querySelector(".save");
   }
 }
