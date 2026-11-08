@@ -31,11 +31,12 @@ template.innerHTML = `
     .row {
       display: flex;
       align-items: center;
-      gap: var(--space-3);
-      padding: var(--space-3) var(--space-4);
+      gap: 10px;
+      min-height: 61px;
+      padding: 10px 20px;
       background: var(--color-surface);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
+      border-radius: 15px;
       transition: border-color var(--transition);
     }
 
@@ -45,8 +46,8 @@ template.innerHTML = `
 
     .toggle {
       flex: none;
-      width: 18px;
-      height: 18px;
+      width: 19px;
+      height: 19px;
       padding: 0;
       border: 1.5px solid var(--color-text-muted);
       border-radius: var(--radius-full);
@@ -70,7 +71,8 @@ template.innerHTML = `
     }
 
     .title {
-      font-size: var(--font-size-sm);
+      font-size: 17px;
+      font-weight: 500;
       overflow-wrap: anywhere;
     }
 
@@ -96,8 +98,8 @@ template.innerHTML = `
     .menu-button {
       display: grid;
       place-items: center;
-      width: 32px;
-      height: 32px;
+      width: 24px;
+      height: 24px;
       padding: 0;
       border: none;
       border-radius: var(--radius-sm);
