@@ -24,6 +24,12 @@ template.innerHTML = `
       cursor: pointer;
     }
 
+    button:focus-visible,
+    input:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
     [hidden] {
       display: none !important;
     }

@@ -169,6 +169,11 @@ template.innerHTML = `
       background: var(--color-control);
     }
 
+    .filter-option:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
     .filter-option[aria-checked="true"]::after {
       content: "✓";
       color: var(--color-success);
