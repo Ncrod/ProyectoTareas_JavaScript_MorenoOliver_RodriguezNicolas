@@ -2,7 +2,7 @@ import "./task-list.js";
 import "./task-form-modal.js";
 import "./import-modal.js";
 import { getTasks } from "../services/storage-service.js";
-import { addTask, toggleTask, updateTask } from "../services/task-service.js";
+import { addTask, deleteTask, toggleTask, updateTask } from "../services/task-service.js";
 
 const template = document.createElement("template");
 
@@ -176,6 +176,7 @@ class TaskApp extends HTMLElement {
     // Eventos que salen de cada <task-item> (burbujean hasta la lista)
     this.list.addEventListener("task-toggle", (event) => this.#onTaskToggle(event));
     this.list.addEventListener("task-edit", (event) => this.#onTaskEdit(event));
+    this.list.addEventListener("task-delete", (event) => this.#onTaskDelete(event));
     this.list = root.querySelector("task-list");
     this.formModal = root.querySelector("task-form-modal");
     this.importModal = root.querySelector("import-modal");
@@ -198,6 +199,12 @@ class TaskApp extends HTMLElement {
     if (task) {
       this.formModal.open({ task });
     }
+  }
+
+  // Opción "Eliminar" de una tarea (la confirmación se agrega en el punto 4.1)
+  #onTaskDelete(event) {
+    deleteTask(event.detail.id);
+    this.#loadTasks();
   }
 
   // Guardar desde el formulario: con id actualiza, sin id crea
