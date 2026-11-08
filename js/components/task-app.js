@@ -207,7 +207,7 @@ template.innerHTML = `
     <header class="header">
       <div>
         <h1 class="title">Bandeja de entrada</h1>
-        <p class="summary"></p>
+        <p class="summary" aria-live="polite"></p>
       </div>
 
       <div class="toolbar">
@@ -477,7 +477,12 @@ class TaskApp extends HTMLElement {
     const totalText = total === 1 ? "1 tarea" : `${total} tareas`;
     const doneText = done === 1 ? "1 completada" : `${done} completadas`;
 
-    this.summary.textContent = `${totalText} · ${doneText}`;
+    const text = `${totalText} · ${doneText}`;
+
+    // Solo se actualiza si cambió, para que el lector de pantalla no repita el aviso
+    if (this.summary.textContent !== text) {
+      this.summary.textContent = text;
+    }
   }
 
   // Aplica el filtro por estado y después la búsqueda

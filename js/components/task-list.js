@@ -28,7 +28,7 @@ template.innerHTML = `
   </style>
 
   <div class="list" role="list"></div>
-  <p class="empty" hidden></p>
+  <p class="empty" role="status" hidden></p>
 `;
 
 class TaskList extends HTMLElement {
