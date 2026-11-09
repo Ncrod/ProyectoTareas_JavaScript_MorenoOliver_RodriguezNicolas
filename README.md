@@ -41,6 +41,7 @@ Aplicación web para gestionar una lista de tareas, hecha solo con **HTML, CSS y
 
 La interfaz sigue el diseño hecho en Figma:
 [Proyecto-JS en Figma](https://www.figma.com/design/BNPuYavlbDE0bI7jmxf3wM/Proyecto-JS?node-id=3-3&m=dev)
+https://www.figma.com/design/BNPuYavlbDE0bI7jmxf3wM/Proyecto-JS?node-id=0-1&t=ZNX3MR7P02eB1TxN-1
 
 ---
 
