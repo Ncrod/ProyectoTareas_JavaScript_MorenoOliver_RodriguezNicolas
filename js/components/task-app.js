@@ -1,5 +1,6 @@
 import "./task-list.js";
 import "./task-form-modal.js";
+import "./task-detail-modal.js";
 import "./import-modal.js";
 import "./confirm-dialog.js";
 import "./toast-message.js";
@@ -56,6 +57,7 @@ class TaskApp extends HTMLElement {
     this.clearButton = this.querySelector(".clear");
     this.list = this.querySelector("task-list");
     this.formModal = this.querySelector("task-form-modal");
+    this.detailModal = this.querySelector("task-detail-modal");
     this.importModal = this.querySelector("import-modal");
     this.confirmDialog = this.querySelector("confirm-dialog");
     this.toast = this.querySelector("toast-message");
