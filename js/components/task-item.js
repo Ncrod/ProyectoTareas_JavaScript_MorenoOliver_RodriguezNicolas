@@ -74,6 +74,14 @@ template.innerHTML = `
       align-items: center;
       column-gap: var(--space-3);
       row-gap: var(--space-1);
+      align-self: stretch;
+      cursor: pointer;
+    }
+
+    .content:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+      border-radius: var(--radius-sm);
     }
 
     .title {
@@ -159,7 +167,7 @@ template.innerHTML = `
   <div class="row">
     <button class="toggle" type="button" role="checkbox" aria-checked="false"></button>
 
-    <div class="content">
+    <div class="content" role="button" tabindex="0">
       <span class="title"></span>
       <span class="meta">
         <time class="date"></time>
@@ -214,6 +222,7 @@ class TaskItem extends HTMLElement {
     const root = this.shadowRoot;
     this.row = root.querySelector(".row");
     this.toggleButton = root.querySelector(".toggle");
+    this.contentEl = root.querySelector(".content");
     this.titleEl = root.querySelector(".title");
     this.dateEl = root.querySelector(".date");
     this.badge = root.querySelector(".badge");
@@ -223,6 +232,14 @@ class TaskItem extends HTMLElement {
     this.deleteButton = root.querySelector(".delete");
 
     this.toggleButton.addEventListener("click", () => this.#emit("task-toggle"));
+    // Clic (o Enter / Espacio) sobre el título y la fecha abre el detalle
+    this.contentEl.addEventListener("click", () => this.#emit("task-view"));
+    this.contentEl.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        this.#emit("task-view");
+      }
+    });
     this.menuButton.addEventListener("click", () => this.#toggleMenu());
     // Al elegir una opción el menú se oculta: el foco pasa al botón de tres puntos
     // para que, al cerrar el modal, el teclado siga en esta tarea
@@ -288,6 +305,7 @@ class TaskItem extends HTMLElement {
         ? `Marcar como pendiente: ${task.title}`
         : `Marcar como terminada: ${task.title}`
     );
+    this.contentEl.setAttribute("aria-label", `Ver detalle de la tarea: ${task.title}`);
     this.menuButton.setAttribute("aria-label", `Opciones de la tarea: ${task.title}`);
   }
 

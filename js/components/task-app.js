@@ -87,6 +87,7 @@ class TaskApp extends HTMLElement {
 
     // Eventos que salen de cada <task-item> (burbujean hasta la lista)
     this.list.addEventListener("task-toggle", (event) => this.#onTaskToggle(event));
+    this.list.addEventListener("task-view", (event) => this.#onTaskView(event));
     this.list.addEventListener("task-edit", (event) => this.#onTaskEdit(event));
     this.list.addEventListener("task-delete", (event) => this.#onTaskDelete(event));
   }
@@ -139,6 +140,15 @@ class TaskApp extends HTMLElement {
   }
 
   // ---------- Acciones sobre las tareas ----------
+
+  // Clic en una tarea: abre el popup con su información
+  #onTaskView(event) {
+    const task = this.#tasks.find((item) => item.id === event.detail.id);
+
+    if (task) {
+      this.detailModal.open({ task });
+    }
+  }
 
   // Opción "Actualizar" de una tarea: abre el formulario con sus datos
   #onTaskEdit(event) {
