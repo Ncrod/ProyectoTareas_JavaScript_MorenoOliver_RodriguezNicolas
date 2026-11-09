@@ -1,14 +1,5 @@
 /**
- * MODELO DE DATOS DE UNA TAREA
- *
- * {
- *   id:        string   Identificador único, ver estándar abajo
- *   title:     string   Descripción de la tarea (sin espacios sobrantes)
- *   createdAt: string   Fecha de registro en formato ISO 8601
- *   completed: boolean  true si está terminada
- *   imported:  boolean  true si vino de la API (no se puede editar)
- * }
- *
+
  * ESTÁNDAR DE ID
  *
  * Formato: "task-" + timestamp en base 36 + "-" + sufijo aleatorio en base 36
