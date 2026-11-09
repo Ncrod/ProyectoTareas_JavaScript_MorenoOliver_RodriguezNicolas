@@ -216,10 +216,10 @@ class TaskApp extends HTMLElement {
 
   // Guardar desde el formulario: con id actualiza, sin id crea
   #onTaskSave(event) {
-    const { id, title, createdAt, completed } = event.detail;
+    const { id, title, description, createdAt, completed } = event.detail;
 
     if (id) {
-      const updated = updateTask(id, { title, completed });
+      const updated = updateTask(id, { title, description, completed });
 
       if (updated) {
         this.toast.show("Tarea actualizada");
@@ -227,7 +227,7 @@ class TaskApp extends HTMLElement {
         this.#showSaveError();
       }
     } else {
-      const created = addTask({ title, createdAt, completed });
+      const created = addTask({ title, description, createdAt, completed });
 
       if (created) {
         this.toast.show("Tarea creada");

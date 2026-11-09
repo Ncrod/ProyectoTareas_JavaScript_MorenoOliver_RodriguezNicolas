@@ -25,7 +25,8 @@ template.innerHTML = `
     }
 
     button:focus-visible,
-    input:focus-visible {
+    input:focus-visible,
+    textarea:focus-visible {
       outline: 2px solid var(--color-primary);
       outline-offset: 2px;
     }
@@ -130,7 +131,21 @@ template.innerHTML = `
       color-scheme: dark;
     }
 
-    input:focus-visible {
+    textarea {
+      width: 100%;
+      min-height: 96px;
+      padding: 9px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-button);
+      background: var(--color-surface-raised);
+      color: var(--color-text);
+      font: inherit;
+      font-size: var(--font-size-button);
+      resize: vertical;
+    }
+
+    input:focus-visible,
+    textarea:focus-visible {
       outline: 2px solid var(--color-primary);
       outline-offset: 1px;
     }
@@ -214,6 +229,11 @@ template.innerHTML = `
       </div>
 
       <div class="field">
+        <label for="task-description">Descripción</label>
+        <textarea id="task-description" name="description" maxlength="500" placeholder="Detalles de la tarea (opcional)"></textarea>
+      </div>
+
+      <div class="field">
         <label for="task-date">Fecha de registro</label>
         <input id="task-date" name="createdAt" type="date">
       </div>
@@ -255,6 +275,7 @@ class TaskFormModal extends HTMLElement {
     this.titleEl = root.querySelector("#modal-title");
     this.form = root.querySelector("form");
     this.titleInput = root.querySelector("#task-title");
+    this.descriptionInput = root.querySelector("#task-description");
     this.dateInput = root.querySelector("#task-date");
     this.completedInput = root.querySelector("#task-completed");
     this.titleError = root.querySelector("#title-error");
@@ -309,6 +330,7 @@ class TaskFormModal extends HTMLElement {
     if (task) {
       this.titleEl.textContent = "Editar tarea";
       this.titleInput.value = task.title;
+      this.descriptionInput.value = task.description ?? "";
       this.completedInput.checked = Boolean(task.completed);
       this.dateInput.value = toDateInputValue(new Date(task.createdAt));
       this.dateInput.readOnly = true;
@@ -357,6 +379,7 @@ class TaskFormModal extends HTMLElement {
 
     const detail = {
       title: this.titleInput.value.trim(),
+      description: this.descriptionInput.value.trim(),
       createdAt: this.#getCreatedAt(),
       completed: this.completedInput.checked,
     };
