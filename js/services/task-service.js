@@ -5,7 +5,11 @@ function normalizeTitle(title) {
   return title.trim().toLowerCase();
 }
 
-export function addTask({ title, completed = false, createdAt } = {}) {
+function cleanDescription(description) {
+  return typeof description === "string" ? description.trim() : "";
+}
+
+export function addTask({ title, description, completed = false, createdAt } = {}) {
   const cleanTitle = typeof title === "string" ? title.trim() : "";
 
   if (!cleanTitle) {
@@ -15,6 +19,7 @@ export function addTask({ title, completed = false, createdAt } = {}) {
   const task = {
     id: generateId(),
     title: cleanTitle,
+    description: cleanDescription(description),
     createdAt: createdAt ?? new Date().toISOString(),
     completed: Boolean(completed),
     imported: false,
@@ -45,6 +50,10 @@ export function updateTask(id, changes = {}) {
     }
 
     updated.title = cleanTitle;
+  }
+
+  if ("description" in changes) {
+    updated.description = cleanDescription(changes.description);
   }
 
   if ("completed" in changes) {
