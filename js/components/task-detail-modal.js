@@ -140,7 +140,8 @@ template.innerHTML = `
 
     .footer {
       display: flex;
-      justify-content: flex-end;
+      flex-direction: column-reverse;
+      gap: var(--space-2);
       padding: var(--space-4) var(--modal-padding);
       border-top: 1px solid var(--color-border);
     }
@@ -160,7 +161,17 @@ template.innerHTML = `
       filter: brightness(1.2);
     }
 
+    .btn.primary {
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+    }
+
     @media (min-width: 480px) {
+      .footer {
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+
       .btn {
         width: auto;
       }
@@ -192,6 +203,7 @@ template.innerHTML = `
 
     <footer class="footer">
       <button class="btn close-btn" type="button">Cerrar</button>
+      <button class="btn primary edit" type="button">Editar</button>
     </footer>
   </dialog>
 `;
@@ -211,6 +223,9 @@ function formatDate(isoString) {
 }
 
 class TaskDetailModal extends HTMLElement {
+  // Tarea que se está mostrando
+  #task = null;
+
   constructor() {
     super();
 
@@ -228,6 +243,24 @@ class TaskDetailModal extends HTMLElement {
     root.querySelector(".close").addEventListener("click", () => this.close());
     root.querySelector(".close-btn").addEventListener("click", () => this.close());
 
+    // Editar cierra el popup y pide abrir el formulario con esta tarea
+    this.editButton = root.querySelector(".edit");
+    this.editButton.addEventListener("click", () => {
+      const id = this.#task?.id;
+
+      this.close();
+
+      if (id) {
+        this.dispatchEvent(
+          new CustomEvent("task-edit", {
+            detail: { id },
+            bubbles: true,
+            composed: true,
+          })
+        );
+      }
+    });
+
     // Clic en el fondo (el <dialog> no tiene padding) cierra el popup
     this.dialog.addEventListener("click", (event) => {
       if (event.target === this.dialog) {
@@ -243,6 +276,10 @@ class TaskDetailModal extends HTMLElement {
     if (!task || this.dialog.open) {
       return;
     }
+
+    this.#task = task;
+    // Las tareas importadas no se pueden editar
+    this.editButton.hidden = Boolean(task.imported);
 
     const completed = Boolean(task.completed);
     const description = typeof task.description === "string" ? task.description.trim() : "";

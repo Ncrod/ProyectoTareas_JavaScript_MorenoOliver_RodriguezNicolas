@@ -87,6 +87,7 @@ class TaskApp extends HTMLElement {
 
     // Eventos que salen de cada <task-item> (burbujean hasta la lista)
     this.list.addEventListener("task-toggle", (event) => this.#onTaskToggle(event));
+    this.detailModal.addEventListener("task-edit", (event) => this.#onTaskEdit(event));
     this.list.addEventListener("task-view", (event) => this.#onTaskView(event));
     this.list.addEventListener("task-edit", (event) => this.#onTaskEdit(event));
     this.list.addEventListener("task-delete", (event) => this.#onTaskDelete(event));
