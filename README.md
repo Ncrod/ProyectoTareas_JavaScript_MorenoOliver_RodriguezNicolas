@@ -9,7 +9,8 @@ Proyecto del módulo de JavaScript de Campusland, hecho por **Oliver Moreno** y 
 4. [Despliegue](#despliegue)
 5. [Lógica implementada](#lógica-implementada)
 6. [Estructura del proyecto](#estructura-del-proyecto)
-7. [Autores](#autores)
+7. [Diseño UX](#Diseno)
+8. [Autores](#autores)
 
 ---
 
@@ -232,6 +233,12 @@ Los textos del usuario y de la API se insertan siempre con `textContent` o `.val
 └── docs/                    Enunciado, wireframes y capturas
 ```
 
+## Diseno
+La interfaz sigue el diseño hecho en Figma:
+[Proyecto-JS en Figma](https://www.figma.com/design/BNPuYavlbDE0bI7jmxf3wM/Proyecto-JS?node-id=0-1&t=ZNX3MR7P02eB1TxN-1)
+
+![Diseño UX en figma](public/wireframe/figma.png)
+![Implementación](public/wireframe/imp.png)
 ---
 
 ## Autores
