@@ -1,13 +1,13 @@
 /**
 
- * ESTÁNDAR DE ID
- *
- * Formato: "task-" + timestamp en base 36 + "-" + sufijo aleatorio en base 36
- * Ejemplo: task-mh4k7q2z-9f3a
- *
- * - El prefijo "task-" identifica el tipo de dato.
- * - El timestamp (Date.now()) hace que los IDs sean únicos en el tiempo.
- * - El sufijo aleatorio evita choques si dos IDs se crean en el mismo milisegundo.
+ESTÁNDAR DE ID
+
+Formato: "task-" + timestamp en base 36 + "-" + sufijo aleatorio en base 36
+Ejemplo: task-mh4k7q2z-9f3a
+
+- El prefijo "task-" identifica el tipo de dato.
+- El timestamp (Date.now()) hace que los IDs sean únicos en el tiempo.
+- El sufijo aleatorio evita choques si dos IDs se crean en el mismo milisegundo.
  */
 
 export function generateId() {
