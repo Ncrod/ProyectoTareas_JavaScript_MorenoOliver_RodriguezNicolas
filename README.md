@@ -237,7 +237,9 @@ Los textos del usuario y de la API se insertan siempre con `textContent` o `.val
 La interfaz sigue el diseño hecho en Figma:
 [Proyecto-JS en Figma](https://www.figma.com/design/BNPuYavlbDE0bI7jmxf3wM/Proyecto-JS?node-id=0-1&t=ZNX3MR7P02eB1TxN-1)
 
+**Diseño del wireframe en figma**
 ![Diseño UX en figma](public/wireframe/figma.png)
+**Implementación**
 ![Implementación](public/wireframe/imp.png)
 ---
 
